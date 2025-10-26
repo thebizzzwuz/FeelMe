@@ -1,44 +1,55 @@
-import Button from "@/components/Button";
-import ImageViewer from "@/components/ImageViewer";
-import InputValue from "@/components/input-username";
-import { StyleSheet, Text, View } from "react-native";
+import InputValue from "@/components/input-text";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Button, Card, Text } from "react-native-paper";
 
 const PlaceholderImage = require("../../assets/images/background-image.png");
 
 export default function Index() {
   return (
-    <View
-      style={styles.container}
-    >
-      <View>
-        <ImageViewer imgSource={PlaceholderImage} />
-        <Text style={styles.text}>Sign in to your account</Text>
-        <InputValue placeholder="User Name" />
-        <InputValue placeholder="Password" />
+      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.grid}>
+        <Card style={styles.gridCard}>
+          <Card.Cover source={PlaceholderImage} />
+        </Card>
+        <Card style={styles.gridCard}>
+           <Card.Content>  
+            <Text style={styles.text}>Sign in to your account</Text>
+            <InputValue placeholder="User Name" />
+            <InputValue placeholder="Password" />
+          </Card.Content>
+          <Card.Actions>
+            <Button mode='contained' onPress={() => alert('API needs to be configured...')}>Sign In</Button>
+            <Button mode='contained' onPress={() => alert('Reach out to Researcher to reset your password')}>Forgot Password?</Button>
+          </Card.Actions>
+        </Card>
+      </ScrollView>
       </View>
-      <View style={styles.footerContainer}>
-        <Button label="Sign In" />
-      </View>
-    </View>
   );
 }
 
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#25282E',
     flex: 1,
+    backgroundColor: '#56d3adff',
+  },
+  grid: {
+    backgroundColor: '#56d3adff',
+    flexDirection: 'column',
     alignItems: 'center',
-    padding: 1.0,
+    justifyContent: 'center',
+    paddingVertical: 100,
+  },
+  gridCard: {
+    backgroundColor: '#56d3adff',
+    width: 430,
+    alignContent: 'center',
+    marginBottom: 20,
   },
   text: {
     color: '#FFFFFF',
     fontSize: 30,
     marginVertical: 10,
-  },
-  footerContainer: {
-    flex: 1/3,
-    alignItems: 'center',
-    backgroundColor: '#338a7eff',
+    textAlign: 'center',
   },
 });
