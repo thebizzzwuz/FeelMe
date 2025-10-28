@@ -2,15 +2,19 @@ const mongoose = require('mongoose');
 
 const dailyLogSchema = new mongoose.Schema({
 
-    userId:{
-        type:mongoose.Schema.Types.ObjectId,
+    participant:{
+        //type:mongoose.Schema.Types.ObjectId,
+        //For Testing
+        type:String,
         required: true,
         index: true,
         ref: 'User'
     },
 
     studyId:{
-        type: mongoose.Schema.Types.ObjectId,
+        //type: mongoose.Schema.Types.ObjectId,
+        //For testing
+        type:String,
         required: true,
         index: true,
         ref: 'Study'
@@ -44,4 +48,4 @@ const dailyLogSchema = new mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('DailyLog', dailyLogSchema);
+module.exports = mongoose.model('Log', dailyLogSchema);
