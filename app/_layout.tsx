@@ -9,11 +9,17 @@ export default function RootLayout() {
         <StatusBar style="light" />
         <Stack>
           <Stack.Screen 
+          name="index"
+          options={{
+            headerTitle: 'Feel Me',
+          }}
+          />
+          {/* <Stack.Screen 
           name="(tabs)"
           options={{
             headerShown: false,
           }}
-          />
+          /> */}
           <Stack.Screen 
           name="+not-found"
           options={{
