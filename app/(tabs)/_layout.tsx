@@ -17,7 +17,7 @@ export default function RootLayout() {
             }
         }}
     >
-      <Tabs.Screen 
+      {/* <Tabs.Screen 
       name="index"
       options={{
         headerTitle: 'Feel Me',
@@ -28,7 +28,7 @@ export default function RootLayout() {
                 color= {color} />
         ),
       }}
-      />
+      /> */}
       <Tabs.Screen name ="about"
       options={{
         headerTitle: 'About',

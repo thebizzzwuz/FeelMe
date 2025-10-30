@@ -2,15 +2,15 @@ import InputValue from "@/components/input-text";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 
-//const PlaceholderImage = require("/../assets/images/background-Image.png");
+const PlaceholderImage = require("@/assets/images/background-image.png");
 
 export default function Index() {
   return (
       <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.grid}>
-        {/* <Card style={styles.gridCard}>
+        <Card style={styles.gridCard}>
           <Card.Cover source={PlaceholderImage} />
-        </Card> */}
+        </Card>
         <Card style={styles.gridCard}>
            <Card.Content>  
             <Text style={styles.text}>Sign in to your account</Text>
