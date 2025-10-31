@@ -1,10 +1,12 @@
 import InputValue from "@/components/input-text";
+import { useRouter } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 
 const PlaceholderImage = require("@/assets/images/background-image.png");
 
 export default function Index() {
+  const router = useRouter();
   return (
       <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.grid}>
@@ -18,7 +20,7 @@ export default function Index() {
             <InputValue placeholder="Password" />
           </Card.Content>
           <Card.Actions>
-            <Button mode='contained' onPress={() => alert('API needs to be configured...')}>Sign In</Button>
+            <Button mode='contained' onPress={() => router.push('/(admin)/admin-dashboard')}>Sign In</Button>
             <Button mode='contained' onPress={() => alert('Reach out to Researcher to reset your password')}>Forgot Password?</Button>
           </Card.Actions>
         </Card>

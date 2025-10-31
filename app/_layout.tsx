@@ -14,12 +14,12 @@ export default function RootLayout() {
             headerTitle: 'Feel Me',
           }}
           />
-          <Stack.Screen 
+          {/* <Stack.Screen 
           name="(tabs)"
           options={{
             headerShown: false,
           }}
-          />
+          /> */}
           <Stack.Screen 
           name="+not-found"
           options={{

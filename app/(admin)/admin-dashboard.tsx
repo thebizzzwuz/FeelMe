@@ -1,29 +1,17 @@
-import InputValue from "@/components/input-text";
+import DropdownComponent from "@/components/Dropdown";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Button, Card, Text } from "react-native-paper";
-
-//const PlaceholderImage = require("@/assets/images/background-Image.png");
+import { Button, Text } from "react-native-paper";
 
 export default function AdminDashboard() {
   return (
-      <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.grid}>
-        {/* <Card style={styles.gridCard}>
-          <Card.Cover source={PlaceholderImage} />
-        </Card> */}
-        <Card style={styles.gridCard}>
-           <Card.Content>  
-            <Text style={styles.text}>Sign in to your account</Text>
-            <InputValue placeholder="User Name" />
-            <InputValue placeholder="Password" />
-          </Card.Content>
-          <Card.Actions>
-            <Button mode='contained' onPress={() => alert('API needs to be configured...')}>Sign In</Button>
-            <Button mode='contained' onPress={() => alert('Reach out to Researcher to reset your password')}>Forgot Password?</Button>
-          </Card.Actions>
-        </Card>
-      </ScrollView>
-      </View>
+    <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.grid}>
+            <Text style={styles.text}>Feel Me {'\n'} Researcher Dashboard!</Text>
+            <Button mode='elevated' onPress={() => alert('API needs to be configured...')}>Create Study</Button>
+            <DropdownComponent></DropdownComponent>
+            {/* <Button mode='elevated' onPress={() => alert('Reach out to Researcher to reset your password')}>View Study</Button> */}
+        </ScrollView>
+    </View>
   );
 }
 
