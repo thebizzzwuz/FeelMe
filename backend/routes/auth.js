@@ -1,66 +1,78 @@
-const express = require("express")
+const express = require('express')
 const router = express.Router()
-const jwt = require("jsonwebtoken")
-const participant = require("../models/participant")
+const jwt = require('jsonwebtoken')
+const participant = require('../models/participant')
+const bcrypt = require('bcrypt');
 
-//Creates token for participant and sets expiration time
-const createToken = (participantID) => {
-    return jwt.sign({ id: participantID }, process.env.JWT_SECRET, { expiresIn: '180d' });
-}
-
-//POST request to /register        Obtains participantId and password from the request body
+//Register a participant route
 router.post('/register', async (req, res) => {
-    const { participantId, password } = req.body;
 
-    // Tries to find participant in Mongo db database
+    // Get participant Id and password from text fields to register a new participant
+    const { participantId, password } = req.body;
+    console.log('Received data:', req.body);
 
     try {
         const userExists = await participant.findOne({participantId});
-        if (userExists) return res.status(400).json({ message: 'Participant already exists' });
+        if (userExists) return res.status(400).json({message: 'Participant already exists'});
+    }
 
-        //If no participant exists, creates one in Mongo db database
+    catch (err) {
+        res.status(500).json({ message: 'User already created' });
+    }
 
-        const user = await participant.create({ participantId, password });
+    //Hashes the incoming password to place in the database
+    bcrypt.hash(password.trim(), 8)
+        .then(hash => {
 
-        // Response back to user in JSON
+            // Places new participant in the database
+            participant.create({participantId: Number(participantId),  password: hash})
+                .then(user => {
+                    res.json({status: 'Participant Created'});
+                })
+                .catch(err => {
+                    console.error('Error creating user:', err);
+                    res.json(err)
+                });
+        }).catch(err => res.json(err));
+})
 
-        res.status(201).json({
-            _id: user._id,
-            participantid: user.participantId,
-            token: createToken(user._id),
-        });
 
-        // Response back to user if an error occurred
+//POST request to /login       Obtains participantId and password from the request body
+router.post('/signin', async (req, res) => {
 
-    } catch (err) {
-        res.status(500).json({ message: 'Server error' });
+    // Take participantId and password out of the text fields for sign-in
+    const { participantId, password } = req.body;
+    console.log('Received data:', req.body);
+
+    // Finds existing participant in database base off participantId
+    const user= await participant.findOne({participantId: Number(participantId)});
+
+    if (!user) {
+        console.log('User Not Found');
+        return res.status(400).json({ message: 'User Not Found' });
+    }
+    else {
+
+        // Compare hash of database password to hash of entered password
+        bcrypt.compare(password, user.password, (err, response) => {
+
+            if (err) {
+                console.error('Error comparing passwords:', err);
+                return res.status(500).json('Internal error');
+            }
+
+            if (response) {
+                //Assign the jwt and respond with the jwt
+                const token = jwt.sign({id: participantId},
+                    'jwt-secret-key', {expiresIn: '180d'});
+                return res.status(200).json({status: 'Successfully Signed In', token: token,
+                    user: {id: user._id, participantId: user.participantId}});
+            }
+            else{
+                return res.status(401).json({ message: 'Invalid password' });
+            }
+        })
     }
 })
 
-//POST request to /login       Obtains participantId and password from the request body
-
-router.post('/login', async (req, res) => {
-    const { participantId, password } = req.body;
-
-    // Finding participant id from Mongo db database
-
-    try {
-        const user = await participant.findOne({ participantId });
-        if (!user || !(await user.matchPassword(password))) {
-            return res.status(401).json({ message: 'Invalid credentials' });
-        }
-
-        // Response back to user in JSON
-
-        res.json({
-            _id: user._id,
-            participantid: user.participantId,
-            token: createToken(user._id),
-        });
-
-        // Response back to user if an error occurred
-
-    } catch (err) {
-        res.status(500).json({ message: 'Server error' });
-    }
-});
+module.exports = router;

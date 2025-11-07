@@ -18,6 +18,20 @@ export default function RootLayout() {
             }
         }}
     >
+      <Tabs.Screen name = "userDashboard"
+      options={{
+        headerTitle: hide,
+          headerTitleAlign: "center",
+          tabBarLabel: 'Participant Dashboard',
+        tabBarIcon: ({focused, color}) => ( 
+            <Ionicons 
+                name= {focused ? "home-sharp" : "home-outline"}
+                size={24} 
+                color= {color} />
+        ),
+      }}
+      />
+
         <Tabs.Screen name = "adminDashboard"
                      options={{
                          headerTitle: hide,
@@ -32,19 +46,20 @@ export default function RootLayout() {
                      }}
         />
 
-      <Tabs.Screen name = "userDashboard"
-      options={{
-        headerTitle: hide,
-          headerTitleAlign: "center",
-          tabBarLabel: 'Participant Dashboard',
-        tabBarIcon: ({focused, color}) => ( 
-            <Ionicons 
-                name= {focused ? "home-sharp" : "home-outline"}
-                size={24} 
-                color= {color} />
-        ),
-      }}
-      />
+        <Tabs.Screen name = "createStudy"
+                     options={{
+                         headerTitle: hide,
+                         headerTitleAlign: "center",
+                         tabBarLabel: 'Create Study',
+                         tabBarIcon: ({focused, color}) => (
+                             <Ionicons
+                                 name= {focused ? "flask-sharp" : "flask-outline"}
+                                 size={24}
+                                 color= {color} />
+                         ),
+                     }}
+        />
+
       <Tabs.Screen name ="about"
       options={{
         headerTitle: 'About',

@@ -1,6 +1,6 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View } from 'react-native';
 import * as React from 'react';
-import {Text, TextInput, Button, useTheme, SegmentedButtons} from "react-native-paper"
+import {Text, TextInput, Button, useTheme, SegmentedButtons} from 'react-native-paper'
 
 export default function AdminDashboard() {
     return (

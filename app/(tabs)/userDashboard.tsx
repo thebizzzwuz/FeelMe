@@ -15,7 +15,7 @@ export default function UserDashboard() {
 
             <Button icon='pencil' mode='contained' onPress={() => console.log('Pressed')}
                     style={[styles.largeButton]}
-                    labelStyle={styles.textLargeButton} >
+                    labelStyle={styles.textLargeButton}>
                Daily Self-Rating
             </Button>
 
