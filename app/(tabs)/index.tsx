@@ -1,6 +1,6 @@
 import Button from "@/components/Button";
 import ImageViewer from "@/components/ImageViewer";
-import InputValue from "@/components/input-username";
+import InputValue from "@/components/input-value";
 import { StyleSheet, Text, View } from "react-native";
 
 const PlaceholderImage = require("../../assets/images/background-image.png");

@@ -7,8 +7,10 @@ export default function RootLayout() {
       <StatusBar style="light" />
       <Stack>
         <Stack.Screen 
-        name="(tabs)"
+        //name="(tabs)"
+        name= 'preintervention'
         options={{
+          title: 'Baseline Intervention',
           headerShown: false,
         }}
         />
