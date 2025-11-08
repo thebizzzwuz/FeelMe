@@ -8,9 +8,9 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen 
         //name="(tabs)"
-        name= 'preintervention'
+        name= 'preintervention'  // edit this to display on smartphone
         options={{
-          title: 'Baseline Intervention',
+          title: 'Baseline Intervention', // edit this to display on smartphone
           headerShown: false,
         }}
         />
