@@ -1,15 +1,21 @@
 import DropdownComponent from "@/components/Dropdown";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Button, Card, Text } from "react-native-paper";
 
 export default function AdminDashboard() {
   return (
     <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.grid}>
-            <Text style={styles.text}>Feel Me {'\n'} Researcher Dashboard!</Text>
-            <Button mode='elevated' onPress={() => alert('API needs to be configured...')}>Create Study</Button>
-            <DropdownComponent></DropdownComponent>
-            {/* <Button mode='elevated' onPress={() => alert('Reach out to Researcher to reset your password')}>View Study</Button> */}
+            {/* <Text style={styles.text}>Feel Me {'\n'} Researcher Dashboard!</Text> */}
+            <Card style={styles.gridCard}>
+              <Text style={styles.text}>Click below to create a new study</Text>
+              <Button mode='elevated' onPress={() => alert('API needs to be configured...')}>Create Study</Button>
+            </Card>
+            <Card style={styles.gridCard}>
+              <Text style={styles.text}>Select a study to view data</Text>
+              <DropdownComponent></DropdownComponent>
+              <Button mode='elevated' onPress={() => alert('API needs to be configured')}>View Study</Button>
+            </Card>
         </ScrollView>
     </View>
   );
