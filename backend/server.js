@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -20,7 +21,8 @@ app.use(cors());
 app.use(express.json());
 
 // Import routes here
-
+const logRoutes = require('./routes/logRoute');
+app.use('/api/logs', logRoutes);
 
 // 3. Start the server
 const PORT = 3000;

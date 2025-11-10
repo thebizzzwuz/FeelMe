@@ -2,18 +2,22 @@ const mongoose = require('mongoose');
 
 const dailyLogSchema = new mongoose.Schema({
 
-    userId:{
-        type:mongoose.Schema.Types.ObjectId,
+    participant:{
+        //type:mongoose.Schema.Types.ObjectId,
+        //For Testing
+        type:Number,
         required: true,
         index: true,
-        ref: 'User'
+        ref: 'participant'
     },
 
     studyId:{
-        type: mongoose.Schema.Types.ObjectId,
+        //type: mongoose.Schema.Types.ObjectId,
+        //For testing
+        type:String,
         required: true,
         index: true,
-        ref: 'Study'
+        ref: 'study'
     },
 
     logX:{
@@ -30,18 +34,20 @@ const dailyLogSchema = new mongoose.Schema({
         max: 10
     },
 
-    timestamp:{
-        type: Date,
-        required: true,
-        default: Date.now
-    },
-
     isPostIntervention:{
         type: Boolean,
         required: true,
         default: false
+    },
+
+    comment:{
+        type: String,
+        default: ''
     }
+},
+    {
+        timestamps: {createdAt: true, updatedAt: false},
+    }
+    );
 
-})
-
-module.exports = mongoose.model('DailyLog', dailyLogSchema);
+module.exports = mongoose.model('Log', dailyLogSchema);
