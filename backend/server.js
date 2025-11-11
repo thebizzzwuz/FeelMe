@@ -24,6 +24,9 @@ app.use(express.json());
 const logRoutes = require('./routes/logRoute');
 app.use('/api/logs', logRoutes);
 
+const studyRoutes = require('./routes/studyRoute');
+app.use('/api/studies', studyRoutes);
+
 // 3. Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
