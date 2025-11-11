@@ -10,6 +10,11 @@ const logController = require('../controllers/logController');
 //router.post("/submit-log", protect, logController.submitLog);
 router.post("/submit-log", logController.submitLog);
 
-
+// Get logs by participant
+// router.get("/", protect, logController.getLogsByParticipant);
+router.get("/:participantId", logController.getLogsByParticipant)
 module.exports = router;
 
+// Download logs for a specific participant (user)
+//router.get('/download', protect, logController.downloadParticipantLogs);
+router.get('/download/:participantId', logController.downloadParticipantLogs);
