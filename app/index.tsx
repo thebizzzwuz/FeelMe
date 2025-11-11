@@ -1,5 +1,5 @@
 // import ImageViewer from '@/components/ImageViewer';
-import {StyleSheet, Text, TextInput, View, Button, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {Link} from 'expo-router';
 import {useState} from 'react';
 import axios from 'axios';
@@ -28,6 +28,9 @@ export default function Index() {
     axios.post('http://192.168.1.8:3000/register', {participantId, password})
         .then(res => {
           alert(res.data.status);
+
+          //Reset fields after successful creation of participant
+
           setParticipantId('');
           setPassword('');
         })
@@ -35,6 +38,9 @@ export default function Index() {
           if (err.response) {
             if (err.response.status === 400) {
               alert('Participant already exists');
+
+              //Reset fields after error
+
               setParticipantId('');
               setPassword('');
             }}})

@@ -1,28 +1,79 @@
 import {StyleSheet, View} from 'react-native';
 import * as React from 'react';
-import {Text, Button, SegmentedButtons, TextInput, Menu, Provider as PaperProvider} from 'react-native-paper';
-// import DropDown from 'react-native-paper-dropdown';
+import {Text, Button, SegmentedButtons, TextInput, Menu} from 'react-native-paper';
+import axios from 'axios';
+import {useRouter} from 'expo-router';
 
+// import DropDown from 'react-native-paper-dropdown';
 
 export default function CreateStudy() {
 
-    // State variables for drop-down menus
+    // Used for link redirection
+    const router = useRouter();
 
+    // State variables for Study Name
+
+    const [studyName, setStudyName] = React.useState('');
+
+    // State variables for Study Variable #1
+
+    const [variableOne, setVariableOne] = React.useState('');
+
+    // State variables for Study Variable #2
+
+    const [variableTwo, setVariableTwo] = React.useState('');
+
+    // State variables for drop-down menus
     const [visibleLL, setVisibleLL] = React.useState(false);
-    const [label, setLabel] = React.useState('Likert Labels');
-    const [visible1, setVisible1] = React.useState(false);
-    const [color1, setColor1] = React.useState('Quadrant 1 Color');
-    const [visible2, setVisible2] = React.useState(false);
-    const [color2, setColor2] = React.useState('Quadrant 2 Color');
-    const [visible3, setVisible3] = React.useState(false);
-    const [color3, setColor3] = React.useState('Quadrant 3 Color');
-    const [visible4, setVisible4] = React.useState(false);
-    const [color4, setColor4] = React.useState('Quadrant 4 Color');
+    const [linkertLabel, setLinkertLabel] = React.useState('Likert Labels');
+    const [visibleOne, setVisibleOne] = React.useState(false);
+    const [colorOne, setColorOne] = React.useState('Quadrant 1 Color');
+    const [visibleTwo, setVisibleTwo] = React.useState(false);
+    const [colorTwo, setColorTwo] = React.useState('Quadrant 2 Color');
+    const [visibleThree, setVisibleThree] = React.useState(false);
+    const [colorThree, setColorThree] = React.useState('Quadrant 3 Color');
+    const [visibleFour, setVisibleFour] = React.useState(false);
+    const [colorFour, setColorFour] = React.useState('Quadrant 4 Color');
+
+    //Creates the studies from text fields and drop-down menus
+
+    const CreateStudy = async () => {
+
+        try{
+const res =  await axios.post('http://192.168.1.8:3000/createstudy', {
+    nameStudy: studyName,
+    variableOne: variableOne,
+    variableTwo: variableTwo,
+    linkertLabels: linkertLabel,
+    quadrantOneColor: colorOne,
+    quadrantTwoColor: colorTwo,
+    quadrantThreeColor: colorThree,
+    quadrantFourColor: colorFour
+})
+
+                //Restores inputs
+
+                alert('Study Created');
+                setStudyName('');
+                setVariableOne('');
+                setVariableTwo('');
+                setLinkertLabel('Linkert Labels');
+                setColorOne('Quadrant 1 Color');
+                setColorTwo('Quadrant 2 Color');
+                setColorThree('Quadrant 3 Color');
+                setColorFour('Quadrant 4 Color');
+
+        }
+        catch(err){
+            console.error('Error', err);
+            alert('Did not create study');
+        }
+    }
+
 
     return (
 
         <View style={styles.container}>
-
             <Text style={styles.header}>Admin Create a Study</Text>
 
             <View style={styles.titleBar}>
@@ -32,8 +83,8 @@ export default function CreateStudy() {
             {/*Input field for name of Study*/}
 
             <TextInput label='Name of Study'
-                // value={text}
-                // onChangeText={setText}
+                value={studyName}
+                onChangeText={setStudyName}
                 mode='outlined'
                 contentStyle={styles.inputContent}
                 style={styles.input}
@@ -47,16 +98,17 @@ export default function CreateStudy() {
                 }}
             />
 
-            {/*Input field for Variable #1*/}
+
 
             <View style={styles.titleBar}>
                 <Text style={styles.titleText}>Variable #1</Text>
             </View>
 
+            {/*Input field for Variable #1*/}
 
             <TextInput label='Variable #1'
-                // value={text}
-                // onChangeText={setText}
+                value={variableOne}
+                onChangeText={setVariableOne}
                        mode='outlined'
                        contentStyle={styles.inputContent}
                        style={styles.input}
@@ -70,15 +122,17 @@ export default function CreateStudy() {
                        }}
             />
 
-            {/*Input field for Variable #2*/}
+
 
             <View style={styles.titleBar}>
                 <Text style={styles.titleText}>Variable #2</Text>
             </View>
 
+            {/*Input field for Variable #2*/}
+
             <TextInput label='Variable #2'
-                // value={text}
-                // onChangeText={setText}
+                value={variableTwo}
+                onChangeText={setVariableTwo}
                        mode='outlined'
                        contentStyle={styles.inputContent}
                        style={styles.input}
@@ -94,95 +148,109 @@ export default function CreateStudy() {
 
          {/*Drop-down menu for Likert Labels*/}
 
-<PaperProvider>
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 20}}>
                 <Menu
                     visible={visibleLL}
                     onDismiss={() => setVisibleLL(false)}
                     anchor={
                         <Button mode='outlined' onPress={() => setVisibleLL(true)} textColor='#FFD700'>
-                            {label}
+                            {linkertLabel}
                         </Button>
                     }
                 >
-                    <Menu.Item onPress={() => { setLabel('Admin'); setVisibleLL(false); }} title='Admin' />
-                    <Menu.Item onPress={() => { setLabel('User'); setVisibleLL(false); }} title='User' />
-                    <Menu.Item onPress={() => { setLabel('Guest'); setVisibleLL(false); }} title='Guest' />
+                    <Menu.Item onPress={() => { setLinkertLabel('Stress/Anxiety'); setVisibleLL(false); }} title='Stress/Anxiety' />
+                    <Menu.Item onPress={() => { setLinkertLabel('Pain Threshold'); setVisibleLL(false); }} title='Pain Threshold' />
+                    <Menu.Item onPress={() => { setLinkertLabel('Never/Always'); setVisibleLL(false); }} title='Never/Always' />
+                    <Menu.Item onPress={() => { setLinkertLabel('Important/Not Important'); setVisibleLL(false); }} title='Important/Not Important' />
+                    <Menu.Item onPress={() => { setLinkertLabel('Agree/Disagree'); setVisibleLL(false); }} title='Agree/Disagree' />
+
                 </Menu>
             </View>
 
-    {/*Drop-down menu for Quadrant 1*/}
+        {/*Drop-down menu for Quadrant 1 color*/}
 
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 20}}>
         <Menu
-            visible={visible1}
-            onDismiss={() => setVisible1(false)}
+            visible={visibleOne}
+            onDismiss={() => setVisibleOne(false)}
             anchor={
-                <Button mode='outlined' onPress={() => setVisible1(true)}textColor='#FFD700'>
-                    {color1}
+                <Button mode='outlined' onPress={() => setVisibleOne(true)}textColor='#FFD700'>
+                    {colorOne}
                 </Button>
             }
         >
-            <Menu.Item onPress={() => { setColor1('Admin'); setVisible1(false); }} title='Admin' />
-            <Menu.Item onPress={() => { setColor1('User'); setVisible1(false); }} title='User' />
-            <Menu.Item onPress={() => { setColor1('Guest'); setVisible1(false); }} title='Guest' />
+            <Menu.Item onPress={() => { setColorOne('Red'); setVisibleOne(false); }} title='Red' />
+            <Menu.Item onPress={() => { setColorOne('Orange'); setVisibleOne(false); }} title='Orange' />
+            <Menu.Item onPress={() => {setColorOne('Yellow'); setVisibleOne(false); }} title='Yellow' />
+            <Menu.Item onPress={() => { setColorOne('Green'); setVisibleOne(false); }} title='Green' />
+            <Menu.Item onPress={() => {setColorOne('Blue'); setVisibleOne(false); }} title='Blue' />
+            <Menu.Item onPress={() => { setColorOne('Violet'); setVisibleOne(false); }} title='Violet' />
+
         </Menu>
     </View>
 
-    {/*Drop-down menu for Quadrant 2*/}
+      {/*Drop-down menu for Quadrant 2 color*/}
 
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 20}}>
         <Menu
-            visible={visible2}
-            onDismiss={() => setVisible2(false)}
+            visible={visibleTwo}
+            onDismiss={() => setVisibleTwo(false)}
             anchor={
-                <Button mode='outlined' onPress={() => setVisible2(true)}textColor='#FFD700'>
-                    {color2}
+                <Button mode='outlined' onPress={() => setVisibleTwo(true)}textColor='#FFD700'>
+                    {colorTwo}
                 </Button>
             }
         >
-            <Menu.Item onPress={() => { setColor2('Admin'); setVisible2(false); }} title='Admin' />
-            <Menu.Item onPress={() => { setColor2('User'); setVisible2(false); }} title='User' />
-            <Menu.Item onPress={() => { setColor2('Guest'); setVisible2(false); }} title='Guest' />
+            <Menu.Item onPress={() => { setColorTwo('Red'); setVisibleTwo(false); }} title='Red' />
+            <Menu.Item onPress={() => { setColorTwo('Orange'); setVisibleTwo(false); }} title='Orange' />
+            <Menu.Item onPress={() => { setColorTwo('Yellow'); setVisibleTwo(false); }} title='Yellow' />
+            <Menu.Item onPress={() => { setColorTwo('Green'); setVisibleTwo(false); }} title='Green' />
+            <Menu.Item onPress={() => { setColorTwo('Blue'); setVisibleTwo(false); }} title='Blue' />
+            <Menu.Item onPress={() => { setColorTwo('Violet'); setVisibleTwo(false); }} title='Violet' />
         </Menu>
     </View>
 
-    {/*Drop-down menu for Quadrant 3*/}
+        {/*Drop-down menu for Quadrant 3 color*/}
 
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 20}}>
         <Menu
-            visible={visible3}
-            onDismiss={() => setVisible3(false)}
+            visible={visibleThree}
+            onDismiss={() => setVisibleThree(false)}
             anchor={
-                <Button mode='outlined' onPress={() => setVisible3(true)}textColor='#FFD700'>
-                    {color3}
+                <Button mode='outlined' onPress={() => setVisibleThree(true)}textColor='#FFD700'>
+                    {colorThree}
                 </Button>
             }
         >
-            <Menu.Item onPress={() => { setColor3('Admin'); setVisible3(false); }} title='Admin' />
-            <Menu.Item onPress={() => { setColor3('User'); setVisible3(false); }} title='User' />
-            <Menu.Item onPress={() => { setColor3('Guest'); setVisible3(false); }} title='Guest' />
+            <Menu.Item onPress={() => { setColorThree('Red'); setVisibleThree(false); }} title='Red' />
+            <Menu.Item onPress={() => { setColorThree('Orange'); setVisibleThree(false); }} title='Orange' />
+            <Menu.Item onPress={() => { setColorThree('Yellow'); setVisibleThree(false); }} title='Yellow' />
+            <Menu.Item onPress={() => { setColorThree('Green'); setVisibleThree(false); }} title='Green' />
+            <Menu.Item onPress={() => { setColorThree('Blue'); setVisibleThree(false); }} title='Blue' />
+            <Menu.Item onPress={() => { setColorThree('Violet'); setVisibleThree(false); }} title='Violet' />
         </Menu>
     </View>
 
-    {/*Drop-down menu for Quadrant 4*/}
+       {/*Drop-down menu for Quadrant 4 color*/}
 
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 20}}>
         <Menu
-            visible={visible4}
-            onDismiss={() => setVisible4(false)}
+            visible={visibleFour}
+            onDismiss={() => setVisibleFour(false)}
             anchor={
-                <Button mode='outlined' onPress={() => setVisible3(true)}textColor='#FFD700'>
-                    {color4}
+                <Button mode='outlined' onPress={() => setVisibleFour(true)}textColor='#FFD700'>
+                    {colorFour}
                 </Button>
             }
         >
-            <Menu.Item onPress={() => { setColor4('Admin'); setVisible4(false); }} title='Admin' />
-            <Menu.Item onPress={() => { setColor4('User'); setVisible4(false); }} title='User' />
-            <Menu.Item onPress={() => { setColor4('Guest'); setVisible4(false); }} title='Guest' />
+            <Menu.Item onPress={() => { setColorFour('Red'); setVisibleFour(false); }} title='Red' />
+            <Menu.Item onPress={() => { setColorFour('Orange'); setVisibleFour(false); }} title='Orange' />
+            <Menu.Item onPress={() => { setColorFour('Yellow'); setVisibleFour(false); }} title='Yellow' />
+            <Menu.Item onPress={() => { setColorFour('Green'); setVisibleFour(false); }} title='Green' />
+            <Menu.Item onPress={() => { setColorFour('Blue'); setVisibleFour(false); }} title='Blue' />
+            <Menu.Item onPress={() => { setColorFour('Violet'); setVisibleFour(false); }} title='Violet' />
         </Menu>
     </View>
-</PaperProvider>
 
             {/*React Native Paper Segmented Buttons for Return to Dashboard and Create*/}
 
@@ -190,19 +258,35 @@ export default function CreateStudy() {
                 icon='pencil'
                 // value={value}
                 // onValueChange={setValue}
+
+                // 'Return to Dashboard' button
+
                 buttons={[{value: 'Return to Dashboard',
                     label: 'Return to Dashboard',
                     icon: 'home',
                     buttonColor: '#6200ee',
                     uncheckedColor: '#FFFFFF'},
+
+                    // 'Create a Study' button
+
                     {value: 'Create',
                         label: 'Create',
                         icon: 'plus',
                         buttonColor: '#6200ee',
                         uncheckedColor: '#FFFFFF',}]}
+
+                //Actionable buttons
+
                 style={styles.segmented}
                 textColor='#ffffff'
-                onValueChange={() => {}}
+                onValueChange={(val) => {
+                    if (val === 'Create'){
+                        CreateStudy()
+                    }
+                    if (val === 'Return to Dashboard'){
+                           router.push('./adminDashboard');
+                    }
+                }}
                  value={''}/>
         </View>
 
@@ -215,7 +299,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#25282E',
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-start',
     },
     content: {
         text: 'white',

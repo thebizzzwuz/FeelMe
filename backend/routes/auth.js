@@ -1,8 +1,9 @@
-const express = require('express')
-const router = express.Router()
-const jwt = require('jsonwebtoken')
-const participant = require('../models/participant')
+const express = require('express');
+const router = express.Router();
+const jwt = require('jsonwebtoken');
+const participant = require('../models/participant');
 const bcrypt = require('bcrypt');
+
 
 //Register a participant route
 router.post('/register', async (req, res) => {
@@ -10,6 +11,8 @@ router.post('/register', async (req, res) => {
     // Get participant Id and password from text fields to register a new participant
     const { participantId, password } = req.body;
     console.log('Received data:', req.body);
+
+    // Check if participant already exists
 
     try {
         const userExists = await participant.findOne({participantId});
@@ -31,11 +34,13 @@ router.post('/register', async (req, res) => {
                 })
                 .catch(err => {
                     console.error('Error creating user:', err);
-                    res.json(err)
+                    res.json(err);
                 });
         }).catch(err => res.json(err));
 })
 
+
+//Login a participant route
 
 //POST request to /login       Obtains participantId and password from the request body
 router.post('/signin', async (req, res) => {
