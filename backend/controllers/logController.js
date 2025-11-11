@@ -1,4 +1,6 @@
 const Log = require("../models/Log");
+const { Parser } = require('json2csv'); // for CSV export, need to install json2csv
+
 
 exports.submitLog = async (req, res) => {
     try {
@@ -34,5 +36,66 @@ exports.submitLog = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({error: 'server error'});
+    }
+};
+
+// Returns participants logs in Jason Format (this is for charts)
+exports.getLogsByParticipant = async (req, res) => {
+    try {
+        const{participantId} = req.user._id; // comes from JWT
+
+        if(!participantId){
+            return res.status(400).json({ error: 'participantId is required'});
+        }
+
+        const logs = await Log.find({participant: participantId})
+            .sort({createdAt: 1});
+        return res.status(200).json({logs});
+    } catch (error) {
+        console.log("error fetching logs", error);
+        res.status(500).json({error: 'server error'});
+    }
+};
+
+
+// Download all logs for a given participant as CSV
+exports.downloadParticipantLogs = async (req, res) => {
+    try {
+        const { participantId } = req.params; //req.user._id once JWT auth is integrated.
+
+        if (!participantId) {
+            return res.status(400).json({ error: 'participantId is required' });
+        }
+
+        // Find all logs belonging to this participant
+        const logs = await Log.find({ participant: participantId })
+            .sort({ createdAt: 1 });
+
+        if (!logs.length) {
+            return res.status(404).json({ error: 'No logs found for this participant' });
+        }
+
+        // Labels and mapping for CSV fields
+        const fields = [
+            { label: 'Participant ID', value: 'participant' },
+            { label: 'Study ID', value: 'studyId' },
+            { label: 'logX', value: 'logX' },
+            { label: 'logY', value: 'logY' },
+            { label: 'Post Intervention', value: 'isPostIntervention' },
+            { label: 'Comment', value: 'comment' },
+            { label: 'Created At', value: 'createdAt' }
+        ];
+
+        const json2csv = new Parser({ fields });
+        const csv = json2csv.parse(logs);
+
+        // Send CSV file
+        res.header('Content-Type', 'text/csv');
+        res.attachment(`participant_${participantId}_logs.csv`);
+        return res.send(csv);
+
+    } catch (error) {
+        console.error('Error generating participant data:', error);
+        res.status(500).json({ error: 'Server error generating participant data' });
     }
 };
