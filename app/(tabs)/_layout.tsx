@@ -30,6 +30,7 @@ export default function RootLayout() {
                 color= {color} />
         ),
       }}
+      /> */}
       />
 
         <Tabs.Screen name = "adminDashboard"

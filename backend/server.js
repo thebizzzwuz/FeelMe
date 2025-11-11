@@ -5,12 +5,12 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const authRoutes = require("./routes/auth");
 
+// Load environment variables from .env file
+var dotenv = require('dotenv');
+dotenv.config();
+
 // Connect to MongoDB Atlas
-// const DB_URI = process.env.DB_URI;
-
-// Mongo database for local testing
-const DB_URI = 'mongodb+srv://Josh:nI94iJYsxIBUJ5za@feelmeapp.dxrdzpx.mongodb.net/?appName=feelmeapp';
-
+const DB_URI = process.env.MONGODB_URI;
 
 if (!DB_URI) {
     console.error('MongoDB URI is missing.');
@@ -28,13 +28,16 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Import routes here
+// study route
+const studyRoute = require('./routes/studyRoute');
+app.use('/api/study', studyRoute);
 
 app.use('/', authRoutes);
 const logRoutes = require('./routes/logRoute');
 app.use('/api/logs', logRoutes);
 
 // 3. Start the server
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
