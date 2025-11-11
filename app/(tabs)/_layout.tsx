@@ -1,5 +1,6 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from "expo-router";
+import {hide} from "expo-splash-screen";
 
 
 export default function RootLayout() {
@@ -17,10 +18,11 @@ export default function RootLayout() {
             }
         }}
     >
-      {/* <Tabs.Screen 
-      name="index"
+      <Tabs.Screen name = "userDashboard"
       options={{
-        headerTitle: 'Feel Me',
+        headerTitle: hide,
+          headerTitleAlign: "center",
+          tabBarLabel: 'Participant Dashboard',
         tabBarIcon: ({focused, color}) => ( 
             <Ionicons 
                 name= {focused ? "home-sharp" : "home-outline"}
@@ -29,9 +31,40 @@ export default function RootLayout() {
         ),
       }}
       /> */}
+      />
+
+        <Tabs.Screen name = "adminDashboard"
+                     options={{
+                         headerTitle: hide,
+                         headerTitleAlign: "center",
+                         tabBarLabel: 'Admin Dashboard',
+                         tabBarIcon: ({focused, color}) => (
+                             <Ionicons
+                                 name= {focused ? "home-sharp" : "home-outline"}
+                                 size={24}
+                                 color= {color} />
+                         ),
+                     }}
+        />
+
+        <Tabs.Screen name = "createStudy"
+                     options={{
+                         headerTitle: hide,
+                         headerTitleAlign: "center",
+                         tabBarLabel: 'Create Study',
+                         tabBarIcon: ({focused, color}) => (
+                             <Ionicons
+                                 name= {focused ? "flask-sharp" : "flask-outline"}
+                                 size={24}
+                                 color= {color} />
+                         ),
+                     }}
+        />
+
       <Tabs.Screen name ="about"
       options={{
         headerTitle: 'About',
+          tabBarLabel: 'About',
         tabBarIcon: ({focused, color}) => ( 
             <Ionicons 
                 name= {focused ? "information-circle" : "information-circle-outline"}
