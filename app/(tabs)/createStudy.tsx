@@ -1,13 +1,17 @@
-import {StyleSheet, View} from 'react-native';
+import axios from 'axios';
 import * as React from 'react';
-import {Text, Button, SegmentedButtons, TextInput, Menu, Provider as PaperProvider} from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Button, Menu, Provider as PaperProvider, SegmentedButtons, Text, TextInput } from 'react-native-paper';
 // import DropDown from 'react-native-paper-dropdown';
 
 
 export default function CreateStudy() {
 
-    // State variables for drop-down menus
+    // State variables for Create Study inputs
 
+    const [studyName, setStudyName] = React.useState('');
+    const [variable1, setVariable1] = React.useState('');
+    const [variable2, setVariable2] = React.useState('');
     const [visibleLL, setVisibleLL] = React.useState(false);
     const [label, setLabel] = React.useState('Likert Labels');
     const [visible1, setVisible1] = React.useState(false);
@@ -19,6 +23,39 @@ export default function CreateStudy() {
     const [visible4, setVisible4] = React.useState(false);
     const [color4, setColor4] = React.useState('Quadrant 4 Color');
 
+    // Create a study function to send data to backend
+    const CreateStudy = async () => {
+
+        try {
+            const res = await axios.post('localhost:8081/api/study/create', {
+                studyName: studyName,
+                variable1: variable1,
+                variable2: variable2,
+                color1: color1,
+                color2: color2,
+                color3: color3,
+                color4: color4
+            });
+
+            console.log(res.status);
+            alert('Study Created!');
+            
+            // Restore input fields upon successful creation
+            
+            setStudyName('');
+            setVariable1('');
+            setVariable2('');
+            setColor1('Quadrant 1 Color');
+            setColor2('Quadrant 2 Color');
+            setColor3('Quadrant 3 Color');
+            setColor4('Quadrant 4 Color');
+
+        } catch (error) {
+            console.error('Error during study creation:', error);
+            alert('Study creation failed. Please check your inputs.');
+        }   
+    }
+    
     return (
 
         <View style={styles.container}>
@@ -32,8 +69,8 @@ export default function CreateStudy() {
             {/*Input field for name of Study*/}
 
             <TextInput label='Name of Study'
-                // value={text}
-                // onChangeText={setText}
+                value={studyName}
+                onChangeText={setStudyName}
                 mode='outlined'
                 contentStyle={styles.inputContent}
                 style={styles.input}
@@ -55,19 +92,19 @@ export default function CreateStudy() {
 
 
             <TextInput label='Variable #1'
-                // value={text}
-                // onChangeText={setText}
-                       mode='outlined'
-                       contentStyle={styles.inputContent}
-                       style={styles.input}
-                       theme={{
-                           colors: {
-                               text: 'black',
-                               background: 'white',
-                               primary: 'black',
-                               onSurfaceVariant: 'black',
-                           },
-                       }}
+                value={variable1}
+                onChangeText={setVariable1}
+                mode='outlined'
+                contentStyle={styles.inputContent}
+                style={styles.input}
+                theme={{
+                    colors: {
+                        text: 'black',
+                        background: 'white',
+                        primary: 'black',
+                        onSurfaceVariant: 'black',
+                        },
+                    }}
             />
 
             {/*Input field for Variable #2*/}
@@ -77,19 +114,19 @@ export default function CreateStudy() {
             </View>
 
             <TextInput label='Variable #2'
-                // value={text}
-                // onChangeText={setText}
-                       mode='outlined'
-                       contentStyle={styles.inputContent}
-                       style={styles.input}
-                       theme={{
-                           colors: {
-                               text: 'black',
-                               background: 'white',
-                               primary: 'black',
-                               onSurfaceVariant: 'black',
-                           },
-                       }}
+                value={variable2}
+                onChangeText={setVariable2}
+                mode='outlined'
+                contentStyle={styles.inputContent}
+                style={styles.input}
+                theme={{
+                    colors: {
+                        text: 'black',
+                        background: 'white',
+                        primary: 'black',
+                        onSurfaceVariant: 'black',
+                    },
+                }}
             />
 
          {/*Drop-down menu for Likert Labels*/}
@@ -187,21 +224,18 @@ export default function CreateStudy() {
             {/*React Native Paper Segmented Buttons for Return to Dashboard and Create*/}
 
             <SegmentedButtons
-                icon='pencil'
                 // value={value}
                 // onValueChange={setValue}
                 buttons={[{value: 'Return to Dashboard',
                     label: 'Return to Dashboard',
                     icon: 'home',
-                    buttonColor: '#6200ee',
-                    uncheckedColor: '#FFFFFF'},
+                    uncheckedColor: '#FFFFFF',    
+                },
                     {value: 'Create',
                         label: 'Create',
                         icon: 'plus',
-                        buttonColor: '#6200ee',
                         uncheckedColor: '#FFFFFF',}]}
                 style={styles.segmented}
-                textColor='#ffffff'
                 onValueChange={() => {}}
                  value={''}/>
         </View>
@@ -218,7 +252,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     content: {
-        text: 'white',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',

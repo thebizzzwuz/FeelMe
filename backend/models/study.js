@@ -18,10 +18,26 @@ const studySchema = new mongoose.Schema({
         required: true
     },
 
-    adminId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+    color1: {
+        type: String,
+        required: false,
     },
+
+    color2: {
+        type: String,
+        required: false,
+    },
+
+    color3: {
+        type: String,
+        required: false,
+    },
+
+    color4: {
+        type: String,
+        required: false,
+    },  
+
 })
 
 module.exports = mongoose.model('Study', studySchema);

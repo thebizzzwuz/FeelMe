@@ -4,9 +4,11 @@ import { TextInput } from "react-native-paper";
 
 type Props = {
   placeholder?: string;
+  participantId?: string;
+  password?: string;
 };
 
-const InputValue = ({placeholder} : Props) => {
+const InputValue = ({placeholder, participantId, password} : Props) => {
   const [text, setText] = useState('');
 
   return (
