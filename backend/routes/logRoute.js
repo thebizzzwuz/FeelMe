@@ -10,6 +10,8 @@ const logController = require('../controllers/logController');
 //router.post("/submit-log", protect, logController.submitLog);
 router.post("/submit-log", logController.submitLog);
 
+// Route to delete participant logs
+router.delete('/delete-logs-by-participant', logController.deleteLogsByParticipant);
 
 module.exports = router;
 

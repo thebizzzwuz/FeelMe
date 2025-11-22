@@ -1,6 +1,13 @@
-import DropdownComponent from "@/components/Dropdown";
+import { navigate } from 'expo-router/build/global-state/routing';
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
+import { Dropdown } from 'react-native-paper-dropdown';
+
+// Dropdown options to view study
+const OPTIONS = [
+    { label: 'Stress and Anxiety Study', value: 'Stress and Anxiety Study'},
+    { label: 'Fear Study', value: 'Fear Study'},
+];
 
 export default function AdminDashboard() {
   return (
@@ -9,12 +16,19 @@ export default function AdminDashboard() {
             {/* <Text style={styles.text}>Feel Me {'\n'} Researcher Dashboard!</Text> */}
             <Card style={styles.gridCard}>
               <Text style={styles.text}>Click below to create a new study</Text>
-              <Button mode='elevated' onPress={() => alert('API needs to be configured...')}>Create Study</Button>
+              <Button mode='elevated' onPress={() => navigate('/(tabs)/createStudy')}>Create Study</Button>
             </Card>
             <Card style={styles.gridCard}>
               <Text style={styles.text}>Select a study to view data</Text>
-              <DropdownComponent></DropdownComponent>
-              <Button mode='elevated' onPress={() => alert('API needs to be configured')}>View Study</Button>
+              <Dropdown
+                label="Choose a Study to View"
+                placeholder="Choose a Study to View"
+                options={OPTIONS}
+                //value={value}
+                //onSelect={}
+                mode='outlined'
+                />
+              <Button mode='elevated' onPress={() => navigate('/(admin)/viewStudy')}>View Study</Button>
             </Card>
         </ScrollView>
     </View>

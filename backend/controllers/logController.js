@@ -36,3 +36,13 @@ exports.submitLog = async (req, res) => {
         res.status(500).json({error: 'server error'});
     }
 };
+
+exports.deleteLogsByParticipant = async (req, res) => {
+    try {
+        const {participantId} = req.body;
+        const result = await Log.deleteMany({participant: participantId});
+        res.status(200).json({message: 'Logs deleted!', deletedCount: result.deletedCount});
+    } catch (error) {
+        res.status(500).json({error: 'Failed to delete logs'});
+    }
+};
