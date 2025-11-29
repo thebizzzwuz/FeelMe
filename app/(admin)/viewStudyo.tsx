@@ -1,16 +1,14 @@
 import { navigate } from 'expo-router/build/global-state/routing';
-import React, {useEffect} from "react";
+import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import { Dropdown } from 'react-native-paper-dropdown';
-import axios from "axios";
-import { useLocalSearchParams } from "expo-router";
 
 // Placeholder variables - Will DELETE - 
-// const OPTIONS = [
-//     { label: 'PlaceholderUSER1', value: 'PlaceholderUSER1'},
-//     { label: 'PlaceholderUSER2', value: 'PlaceholderUSER2'},
-// ];
+const OPTIONS = [
+    { label: 'PlaceholderUSER1', value: 'PlaceholderUSER1'},
+    { label: 'PlaceholderUSER2', value: 'PlaceholderUSER2'},
+];
 
 // const chooseUserDropdown = () => {  
 
@@ -31,56 +29,18 @@ import { useLocalSearchParams } from "expo-router";
 
 export default function ViewStudy() {
 
-    const { studyName } = useLocalSearchParams();
-    console.log("Study Name:", studyName);
-
-    const [usersList, setUsersList] = React.useState([]);
-    const [chosenUser, setChosenUser] = React.useState(null);
-
-    useEffect(() => {
-        if(!studyName) return;
-
-        axios.get(`http://192.168.4.23:3000/participant/${studyName}`)
-            .then((res) => {
-                console.log("Raw participant data:", res.data);
-                const mappedUsers = res.data.map(user => ({
-                    label: user.participantId,
-                    value: user._id
-                }));
-                console.log("Mapped users:", mappedUsers);
-                setUsersList(mappedUsers);
-
-
-
-            })
-            .catch(err => {
-
-
-                if (err.response && err.response.status === 400){
-                    const message = err.response.data?.message || "No participants found"
-                    setUsersList([{label: message, value: null}])
-                }
-                else{
-
-                console.error("Error getting participants", err);
-            setUsersList([]);
-            }
-    });
-},[studyName]);
-
-
   return (
     <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.grid}>
             {/* <Text style={styles.text}>Feel Me {'\n'} View Study!</Text> */}
             <Card style={styles.gridCard}>
-              <Text style={styles.text}>{studyName}</Text>
+              <Text style={styles.text}>Stress and Anxiety Study</Text>
               <Dropdown
                 label="Choose a User"
                 placeholder="Choose a User"
-                options={usersList}
-                value={chosenUser}
-                onSelect={setChosenUser}
+                options={OPTIONS}
+                //value={value}
+                //onSelect={}
                 mode='outlined'
                 />
             </Card>
@@ -88,9 +48,9 @@ export default function ViewStudy() {
               <Text style={styles.text}>USER DATA CHART AND TABLE HERE</Text>
             </Card>
             <Card style={styles.row}>
-                <Button mode='elevated' onPress={() => navigate('./createParticipants')}> Create New User </Button>
-                <Button mode='elevated' > Download Data </Button>
-                <Button mode='elevated' > DELETE USER </Button>
+                <Button mode='elevated' onPress={() => alert('Need to connect to page.')}> Create New User </Button>
+                <Button mode='elevated' onPress={() => alert('Need to connect to backend api.')}> Download Data </Button>
+                <Button mode='elevated' onPress={() => alert('Need to connect to backend api.')}> DELETE USER </Button>
                 <Button mode='elevated' onPress={() => navigate('/(admin)/admin-dashboard')}> Return to Dashboard </Button>
             </Card>
         </ScrollView>

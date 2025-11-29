@@ -6,7 +6,7 @@
     const authRoutes = require("./routes/authRoute");
 
     // Connect to MongoDB Atlas
-    const DB_URI = process.env.DB_URI;
+    const DB_URI = 'mongodb+srv://Josh:nI94iJYsxIBUJ5za@feelmeapp.dxrdzpx.mongodb.net/?appName=feelmeapp';
 
     if (!DB_URI) {
         console.error('MongoDB URI is missing.');
@@ -28,15 +28,19 @@
     
     const authRoute = require('./routes/authRoute')
     app.use('/api/auth', authRoute);
-    
+
     const participantRoute = require('./routes/participantRoute');
     app.use('/api/participant', participantRoute);
-    
+
     const studyRoute = require('./routes/studyRoute');
     app.use('/api/study', studyRoute);
-    
+
     const logRoutes = require('./routes/logRoute');
     app.use('/api/logs', logRoutes);
+
+    app.get('/', (req, res) => {
+        res.send('Backend is running!');
+    });
 
     // 3. Start the server
     const PORT = process.env.PORT || 3000;
