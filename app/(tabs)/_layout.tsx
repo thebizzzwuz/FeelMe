@@ -1,81 +1,41 @@
-import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from "expo-router";
-import {hide} from "expo-splash-screen";
-
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { DefaultTheme, PaperProvider } from "react-native-paper";
 
 export default function RootLayout() {
   return(
-    <Tabs
-        screenOptions={{
-            tabBarActiveTintColor: '#ffd33d', 
-            headerStyle: {
-                backgroundColor: '#25282E',
-            },
-            headerShadowVisible: false,
-            headerTintColor: '#FFFFFF',
-            tabBarStyle: {
-                backgroundColor: '#25282E',       
-            }
-        }}
-    >
-      <Tabs.Screen name = "userDashboard"
-      options={{
-        headerTitle: hide,
-          headerTitleAlign: "center",
-          tabBarLabel: 'Participant Dashboard',
-        tabBarIcon: ({focused, color}) => ( 
-            <Ionicons 
-                name= {focused ? "home-sharp" : "home-outline"}
-                size={24} 
-                color= {color} />
-        ),
-      }}
-      /> */}
-      />
-
-        <Tabs.Screen name = "adminDashboard"
-                     options={{
-                         headerTitle: hide,
-                         headerTitleAlign: "center",
-                         tabBarLabel: 'Admin Dashboard',
-                         tabBarIcon: ({focused, color}) => (
-                             <Ionicons
-                                 name= {focused ? "home-sharp" : "home-outline"}
-                                 size={24}
-                                 color= {color} />
-                         ),
-                     }}
-        />
-
-        <Tabs.Screen name = "createStudy"
-                     options={{
-                         headerTitle: hide,
-                         headerTitleAlign: "center",
-                         tabBarLabel: 'Create Study',
-                         tabBarIcon: ({focused, color}) => (
-                             <Ionicons
-                                 name= {focused ? "flask-sharp" : "flask-outline"}
-                                 size={24}
-                                 color= {color} />
-                         ),
-                     }}
-        />
-
-      <Tabs.Screen name ="about"
-      options={{
-        headerTitle: 'About',
-          tabBarLabel: 'About',
-        tabBarIcon: ({focused, color}) => ( 
-            <Ionicons 
-                name= {focused ? "information-circle" : "information-circle-outline"}
-                size={24} 
-                color= {color} />
-        ),
-      }}/>
-      <Tabs.Screen 
-      name="+not-found"
-      options={{
-      }}/>
-    </Tabs>
+    <>
+      <PaperProvider theme={theme}>
+        <StatusBar style="light" />
+        <Stack>
+          <Stack.Screen 
+          name="index"
+          options={{
+            headerTitle: 'Feel Me',
+          }}
+          />
+          {/* <Stack.Screen 
+          name="(tabs)"
+          options={{
+            headerShown: false,
+          }}
+          /> */}
+          <Stack.Screen 
+          name="+not-found"
+          options={{
+          }}/>
+        </Stack>
+      </PaperProvider>
+    </>
   );
 }
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#56d3adff',
+    accent: '#f1c40f',
+    Background: '#25282E',
+  },
+};
