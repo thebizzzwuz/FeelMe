@@ -25,7 +25,7 @@ export default function Index() {
     }
 
     // The local IP for Expo and the backend server port
-    axios.post('http://192.168.1.8:3000/register', {participantId, password})
+    axios.post('http://192.168.1.55:3000/register', {participantId, password})
         .then(res => {
           alert(res.data.status);
           setParticipantId('');

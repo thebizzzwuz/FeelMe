@@ -3,8 +3,9 @@ const { Parser } = require('json2csv'); // for CSV export, need to install json2
 
 
 exports.submitLog = async (req, res) => {
+    console.log("Request body:", req.body); // ADD THIS
     try {
-        const {participant, studyId, logX, logY, isPostIntervention, comment} = req.body;
+        const {studyId, logX, logY, isPostIntervention, comment} = req.body;
 
         // Validation checks
         if (!studyId){
@@ -23,7 +24,7 @@ exports.submitLog = async (req, res) => {
         const dailyLog = new Log({
             // req.user._id comes from the 'protect' middleware. Need it to link the new log to the authenticated
             // participant.
-            participant: participant, //req.user._id,
+            participant: req.user._id,
             studyId: studyId,
             logX,
             logY,
@@ -40,15 +41,11 @@ exports.submitLog = async (req, res) => {
 };
 
 // Returns participants logs in Jason Format (this is for charts)
-exports.getLogsByParticipant = async (req, res) => {
+exports.getPreInterventionLogs = async (req, res) => {
     try {
-        const{participantId} = req.user._id; // comes from JWT
+        const participantId = req.user._id; // comes from JWT
 
-        if(!participantId){
-            return res.status(400).json({ error: 'participantId is required'});
-        }
-
-        const logs = await Log.find({participant: participantId})
+        const logs = await Log.find({participant: participantId, isPostIntervention:false})
             .sort({createdAt: 1});
         return res.status(200).json({logs});
     } catch (error) {
@@ -61,11 +58,7 @@ exports.getLogsByParticipant = async (req, res) => {
 // Download all logs for a given participant as CSV
 exports.downloadParticipantLogs = async (req, res) => {
     try {
-        const { participantId } = req.params; //req.user._id once JWT auth is integrated.
-
-        if (!participantId) {
-            return res.status(400).json({ error: 'participantId is required' });
-        }
+        const participantId  = req.user._id
 
         // Find all logs belonging to this participant
         const logs = await Log.find({ participant: participantId })

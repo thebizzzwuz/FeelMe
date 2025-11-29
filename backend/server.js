@@ -6,10 +6,7 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require("./routes/auth");
 
 // Connect to MongoDB Atlas
-// const DB_URI = process.env.DB_URI;
-
-// Mongo database for local testing
-const DB_URI = 'mongodb+srv://Josh:nI94iJYsxIBUJ5za@feelmeapp.dxrdzpx.mongodb.net/?appName=feelmeapp';
+const DB_URI = process.env.DB_URI;
 
 
 if (!DB_URI) {
