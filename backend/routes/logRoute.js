@@ -18,6 +18,12 @@ router.get("/pre", protect, logController.getPreInterventionLogs);
 
 router.get("/post", protect, logController.getPostInterventionLogs);
 
+// route to get aggregated daily progress data (log x and log y) for specified participant
+router.get("/progress/:participantId", logController.getParticipantProgress);
+
+
+// Route to delete participant logs
+router.delete('/delete-logs-by-participant', logController.deleteLogsByParticipant);
 
 // Download logs for a specific participant (user)
 router.get('/download', protect, logController.downloadParticipantLogs);

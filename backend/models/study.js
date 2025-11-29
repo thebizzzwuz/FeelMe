@@ -5,7 +5,6 @@ const studySchema = new mongoose.Schema({
     studyName: {
         type: String,
         required: true,
-        unique: true
     },
 
     xAxisName: {
@@ -16,12 +15,8 @@ const studySchema = new mongoose.Schema({
     yAxisName: {
         type: String,
         required: true
-    },
+    }
 
-    adminId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
 })
 
 module.exports = mongoose.model('Study', studySchema);

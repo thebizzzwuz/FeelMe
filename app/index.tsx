@@ -1,157 +1,127 @@
-// import ImageViewer from '@/components/ImageViewer';
-import {StyleSheet, Text, TextInput, View, Button, TouchableOpacity} from 'react-native';
-import {Link} from 'expo-router';
-import {useState} from 'react';
-import axios from 'axios';
+// Login screen for FeelMe app
 
-// const PlaceholderImage = require('../assets/images/background-image.png');
+// adapted from Josh Goldbloom's login code
 
+import axios from "axios";
+// import { navigate } from 'expo-router/build/global-state/routing';
+import { useRouter } from 'expo-router';
+import { useState } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Button, Card, Text, TextInput } from "react-native-paper";
+
+// For JWT storage
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const PlaceholderImage = require("@/assets/images/background-image.png");
+
+// Main login screen function with authentication to backend
 export default function Index() {
 
-  //State variables and functions. Holding Participant ID and password
+  const router = useRouter()
+
+  // State variables and functions to hold Participant ID and password
 
   const [participantId, setParticipantId] = useState('');
   const [password, setPassword] = useState('');
 
-  // Register study participant function to post Participant ID and password to Express backend
-  const RegisterParticipant = async (e) => {
-    if (!Number.isInteger(Number(participantId))){
+  const SignInUser = async () => {
 
+    try{
       // Error message for alphanumeric Participant IDs
+      if (!Number.isInteger(Number(participantId))) {
+        setParticipantId('');
+        setPassword('');
+        alert('Participant ID must be a number');
+        return
+      }
+
+      // The local IP for Expo and the backend server port
+      const res = await axios.post('http://192.168.4.23:3000/api/auth/signin', {participantId, password});
+
+      console.log(res.status);
+      alert(res.data.status);
+
+      // Store JWT token upon successful login
+      const token = res.data.token;
+
+      if (res.status === 200) {
+        await AsyncStorage.setItem('jwtToken', token);
+        console.log('Token stored successfully', token);
+      };
+
+      // Admin dashboard navigation
+      if (Number(participantId[0]) === 9) {
+       router.push('/(admin)/admin-dashboard');
+      } else {
+        router.push('/(tabs)/userDashboard');
+      }
+    } catch (error) {
+      console.error('Error during sign-in:', error);
+      alert('Sign-in failed. Please check your Participant ID and password.');  
+      // Clear input fields on error
       setParticipantId('');
-      setPassword('');
-      alert('Participant ID must be a number');
-      return
+      setPassword('');      
+    }
     }
 
-    // The local IP for Expo and the backend server port
-    axios.post('http://192.168.1.55:3000/register', {participantId, password})
-        .then(res => {
-          alert(res.data.status);
-          setParticipantId('');
-          setPassword('');
-        })
-        .catch(err => {
-          if (err.response) {
-            if (err.response.status === 400) {
-              alert('Participant already exists');
-              setParticipantId('');
-              setPassword('');
-            }}})
-  }
   return (
-    <View
-      style={styles.container}
-    >
-      <View style={styles.imageContainer}>
-
-        {/*<ImageViewer imgSource={PlaceholderImage}  />*/}
-
-      </View>
-        <Text style={styles.text}>Register a New Participant</Text>
-
-        {/*Text field for Participant ID*/}
-
-        <View style={styles.form}>
-          <Text style={styles.label}>Participant ID</Text>
-          <TextInput
-              style={styles.input}
-              placeholder='Enter Participant ID'
-              placeholderTextColor='#cccccc'
+      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.grid}>
+        <Card style={styles.gridCard}>
+          <Card.Cover source={PlaceholderImage} />
+        </Card>
+        <Card style={styles.gridCard}>
+           <Card.Content>  
+            <Text style={styles.text}>Sign in to your account</Text>
+            
+            {/* Input fields for Participant ID and password */}
+            <TextInput
+              label="Participant ID"
               value={participantId}
               onChangeText={setParticipantId}
-          />
-
-        {/*Text field for Password*/}
-
-          {/* Password */}
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-              style={styles.input}
-              placeholder='Enter Password'
-              placeholderTextColor='#cccccc'
+              placeholder="Enter Participant ID" />
+            <TextInput 
+              label="Password"
               value={password}
               onChangeText={setPassword}
-              secureTextEntry
-          />
+              secureTextEntry 
+              placeholder="Enter Password" />
+          </Card.Content>
+          <Card.Actions>
 
-        {/*Button to register*/}
-
-          <TouchableOpacity style={styles.registerButton} onPress={RegisterParticipant}>
-            <Text style={styles.registerButtonText}>Register</Text>
-          </TouchableOpacity>
-      </View>
-
-      {/*Preliminary links to toggle Register/Sign In **** WILL BE DELETED*******/}
-
-        <View style={styles.linkContainer}>
-          <Link href='/(tabs)/userDashboard' style={styles.linkText}>
-            Go to Dashboard
-          </Link>
-          <Link href='/indexLogin' style={styles.linkText}>
-            Go to Sign in
-          </Link>
-        </View>
+            {/* Sign in button  */}
+            {/* <Button mode='contained' onPress={() => navigate('/(admin)/admin-dashboard')}>Sign In</Button> */}
+             <Button mode='contained' onPress={SignInUser}>Sign In</Button>
+            <Button mode='contained' onPress={() => alert('Reach out to Researcher to reset your password')}>Forgot Password?</Button>
+          </Card.Actions>
+        </Card>
+      </ScrollView>
       </View>
   );
 }
 
 const styles = StyleSheet.create({
-
   container: {
-    backgroundColor: '#25282E',
     flex: 1,
-    alignItems: 'center',
-    padding: 20,
+    backgroundColor: '#56d3adff',
   },
-  imageContainer: {
-    width: '30%',
-    height: '30%',
-    alignSelf: 'center',
-    marginTop: 20,
+  grid: {
+    backgroundColor: '#56d3adff',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 100,
+  },
+  gridCard: {
+    backgroundColor: '#56d3adff',
+    width: 430,
+    alignContent: 'center',
+    marginBottom: 20,
   },
   text: {
     color: '#FFFFFF',
-    fontSize: 25,
-    fontWeight: 'bold',
+    fontSize: 30,
     marginVertical: 10,
+    textAlign: 'center',
   },
-  form:{
-    width: '90%',
-  },
-  label: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    marginBottom: 5,
-  },
-  input: {
-    backgroundColor: '#333840',
-    color: '#FFFFFF',
-    fontSize: 16,
-    borderRadius: 8,
-    paddingHorizontal: 15,
-    paddingVertical: 22,
-  },
-  registerButton: {
-    backgroundColor: '#338a7eff',
-    paddingVertical: 14,
-    borderRadius: 8,
-    marginTop: 25,
-    alignItems: 'center',
-  },
-  registerButtonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  linkContainer: {
-    marginTop: 40,
-    alignItems: 'center',
-  },
-  linkText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    marginVertical: 5,
-  },
-
 });

@@ -9,3 +9,8 @@ router.get('/names', studyController.getAllStudyNames);
 router.get('/:studyId/download', studyController.downloadStudyData);
 
 module.exports = router;
+console.log("Study routes loaded");
+// Route to create a new study
+router.post('/create',studyController.createStudy);
+
+module.exports = router;

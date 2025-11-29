@@ -1,40 +1,44 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
-const authRoutes = require("./routes/auth");
+    require('dotenv').config();
+    const express = require('express');
+    const cors = require('cors');
+    const mongoose = require('mongoose');
+    const cookieParser = require('cookie-parser');
+    const authRoutes = require("./routes/authRoute");
 
 // Connect to MongoDB Atlas
 const DB_URI = process.env.DB_URI;
 
+    mongoose.connect(DB_URI)
+        .then(() => console.log('Connected to MongoDB Atlas!'))
+        .catch(err => console.log('DB Connection Error:', err));
 
-if (!DB_URI) {
-    console.error('MongoDB URI is missing.');
-    process.exit(1);
-}
+    const app = express();
 
-mongoose.connect(DB_URI)
-    .then(() => console.log('Connected to MongoDB Atlas!'))
-    .catch(err => console.log('DB Connection Error:', err));
+    app.use(cors());
+    app.use(express.json());
+    app.use(cookieParser());
 
-const app = express();
+    // Import routes here
+    // study route
+    
+    const authRoute = require('./routes/authRoute')
+    app.use('/api/auth', authRoute);
 
-app.use(cors());
-app.use(express.json());
-app.use(cookieParser());
+    const participantRoute = require('./routes/participantRoute');
+    app.use('/api/participant', participantRoute);
 
-// Import routes here
+    const studyRoute = require('./routes/studyRoute');
+    app.use('/api/study', studyRoute);
 
-app.use('/', authRoutes);
-const logRoutes = require('./routes/logRoute');
-app.use('/api/logs', logRoutes);
+    const logRoutes = require('./routes/logRoute');
+    app.use('/api/logs', logRoutes);
 
-const studyRoutes = require('./routes/studyRoute');
-app.use('/api/studies', studyRoutes);
+    app.get('/', (req, res) => {
+        res.send('Backend is running!');
+    });
 
-// 3. Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+    // 3. Start the server
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
