@@ -1,44 +1,13 @@
-import Button from "@/components/Button";
-import ImageViewer from "@/components/ImageViewer";
-import InputValue from "@/components/input-username";
-import { StyleSheet, Text, View } from "react-native";
+import { Redirect } from "expo-router";
+import React from "react";
 
-const PlaceholderImage = require("../../assets/images/background-image.png");
-
+/**
+ * TEMPORARY FIX: This file is currently overriding the authentication page
+ * to allow direct access to content pages for development and testing.
+ */
 export default function Index() {
-  return (
-    <View
-      style={styles.container}
-    >
-      <View>
-        <ImageViewer imgSource={PlaceholderImage} />
-        <Text style={styles.text}>Sign in to your account</Text>
-        <InputValue placeholder="User Name" />
-        <InputValue placeholder="Password" />
-      </View>
-      <View style={styles.footerContainer}>
-        <Button label="Sign In" />
-      </View>
-    </View>
-  );
+  
+  // 🎯 CHANGE THIS PATH to view a different page:
+  // Use '/progress', '/pre_rating', or '/post_results'
+  return <Redirect href="/pre-intervention"/>; 
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#25282E',
-    flex: 1,
-    alignItems: 'center',
-    padding: 1.0,
-  },
-  text: {
-    color: '#FFFFFF',
-    fontSize: 30,
-    marginVertical: 10,
-  },
-  footerContainer: {
-    flex: 1/3,
-    alignItems: 'center',
-    backgroundColor: '#338a7eff',
-  },
-});
