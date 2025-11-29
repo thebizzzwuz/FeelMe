@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Chip, Surface, Text, useTheme } from 'react-native-paper';
+import { Surface, Text, useTheme } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { VictoryAxis, VictoryChart, VictoryLabel, VictoryLine, VictoryScatter } from 'victory';
 
@@ -232,31 +232,6 @@ const PreInterventionResults: React.FC = () => {
                         >
                             Well-being Score (1-10)
                         </Text>
-                    </View>
-                </Surface>
-
-                {/* Matrix Interpretation */}
-                <Text variant="titleMedium" style={[styles.chartTitle, { marginTop: 20 }]}>Matrix Interpretation</Text>
-                <Surface style={styles.interpretationSurface} elevation={1}>
-                    <View style={styles.quadrantRow}>
-                        <Chip icon="check-decagram" style={[styles.quadrantChip, { backgroundColor: '#d0f0c0' }]} textStyle={styles.chipText}>
-                            High Well-being / Low Stress: Ideal Zone
-                        </Chip>
-                    </View>
-                    <View style={styles.quadrantRow}>
-                        <Chip icon="alert-octagon" style={[styles.quadrantChip, { backgroundColor: '#ffdbd8' }]} textStyle={styles.chipText}>
-                            Low Well-being / High Stress: Burnout Zone
-                        </Chip>
-                    </View>
-                    <View style={styles.quadrantRow}>
-                        <Chip icon="lightning-bolt" style={[styles.quadrantChip, { backgroundColor: '#fffad4' }]} textStyle={styles.chipText}>
-                            High Well-being / High Stress: High-Risk Paradox
-                        </Chip>
-                    </View>
-                    <View style={styles.quadrantRow}>
-                        <Chip icon="emoticon-sad" style={[styles.quadrantChip, { backgroundColor: '#e0e0e0' }]} textStyle={styles.chipText}>
-                            Low Well-being / Low Stress: Slump Zone
-                        </Chip>
                     </View>
                 </Surface>
 

@@ -16,6 +16,9 @@ router.post("/submit-log", protect, logController.submitLog);
 
 router.get("/pre", protect, logController.getPreInterventionLogs);
 
+router.get("/post", protect, logController.getPostInterventionLogs);
+
+
 // Download logs for a specific participant (user)
 router.get('/download', protect, logController.downloadParticipantLogs);
 //router.get('/download/:participantId', logController.downloadParticipantLogs);

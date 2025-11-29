@@ -54,6 +54,20 @@ exports.getPreInterventionLogs = async (req, res) => {
     }
 };
 
+// Returns participants post logs in Jason Format (this is for charts)
+exports.getPostInterventionLogs = async (req, res) => {
+    try {
+        const participantId = req.user._id; // comes from JWT
+
+        const logs = await Log.find({participant: participantId, isPostIntervention:true})
+            .sort({createdAt: 1});
+        return res.status(200).json({logs});
+    } catch (error) {
+        console.log("error fetching logs", error);
+        res.status(500).json({error: 'server error'});
+    }
+};
+
 
 // Download all logs for a given participant as CSV
 exports.downloadParticipantLogs = async (req, res) => {
