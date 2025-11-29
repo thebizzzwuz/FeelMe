@@ -39,7 +39,7 @@
     app.use('/api/logs', logRoutes);
 
     // 3. Start the server
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
+    const PORT = process.env.PORT || 4555;
+    app.listen(PORT, '0.0.0.0', () => {
         console.log(`Server is running on port ${PORT}`);
     });
