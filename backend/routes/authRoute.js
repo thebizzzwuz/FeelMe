@@ -63,7 +63,7 @@ router.post('/signin', async (req, res) => {
 
             if (response) {
                 //Assign the jwt and respond with the jwt
-                const token = jwt.sign({id: participantId},
+                const token = jwt.sign({id: user._id},
                     'jwt-secret-key', {expiresIn: '180d'});
                 return res.status(200).json({status: 'Successfully Signed In', token: token,
                     user: {id: user._id, participantId: user.participantId}});

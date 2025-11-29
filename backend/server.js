@@ -5,13 +5,8 @@
     const cookieParser = require('cookie-parser');
     const authRoutes = require("./routes/authRoute");
 
-    // Connect to MongoDB Atlas
-    const DB_URI = 'mongodb+srv://Josh:nI94iJYsxIBUJ5za@feelmeapp.dxrdzpx.mongodb.net/?appName=feelmeapp';
-
-    if (!DB_URI) {
-        console.error('MongoDB URI is missing.');
-        process.exit(1);
-    }
+// Connect to MongoDB Atlas
+const DB_URI = process.env.DB_URI;
 
     mongoose.connect(DB_URI)
         .then(() => console.log('Connected to MongoDB Atlas!'))
