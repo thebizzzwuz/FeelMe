@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Text, useTheme } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { VictoryAxis, VictoryChart, VictoryLegend, VictoryLine, VictoryScatter, VictoryTheme } from 'victory';
+import { VictoryAxis, VictoryChart, VictoryLabel, VictoryLegend, VictoryLine, VictoryScatter, VictoryTheme } from 'victory';
 
 const screenWidth = Dimensions.get("window").width;
 
