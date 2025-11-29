@@ -45,7 +45,7 @@ const InterventionScreen: React.FC = () => {
                     style={styles.actionButton}
                     icon="play"
                 >
-                    Start Intervention
+                    Proceed to Post-Intervention
                 </Button>
 
                 <Text variant="labelSmall" style={styles.footerText}>

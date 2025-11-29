@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Surface, Text, useTheme } from 'react-native-paper';
+import { Button, Surface, Text, useTheme } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { VictoryAxis, VictoryChart, VictoryLabel, VictoryLine, VictoryScatter } from 'victory';
 
@@ -19,6 +20,7 @@ interface LogEntry {
 const PreInterventionResults: React.FC = () => {
     const insets = useSafeAreaInsets();
     const theme = useTheme();
+    const router = useRouter();
 
     const [logs, setLogs] = useState<LogEntry[]>([]);
     const [loading, setLoading] = useState(true);
@@ -236,6 +238,14 @@ const PreInterventionResults: React.FC = () => {
                 </Surface>
 
             </ScrollView>
+            <Button
+                mode="contained"
+                onPress={() => router.push('/(tabs)/intervention')} // navigate to intervention middle page.
+                style={{ marginHorizontal: 20, marginBottom: 10 }}
+            >
+                Proceed to Intervention
+            </Button>
+            
             <Text
                 style={{
                     color: 'blue',

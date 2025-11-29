@@ -115,7 +115,7 @@ const PreRatingScreen: React.FC = () => {
             console.log("Pre-Intervention Scores submitted successfully:", scores, response.data);
 
             //  Navigate to the middle screen
-            router.replace('/(tabs)/intervention');
+            router.replace('/(tabs)/pre-results');
 
         } catch (error: any) {
             const errorMessage = error.response?.data?.msg || error.message || 'Failed to save data.';
@@ -174,7 +174,7 @@ const PreRatingScreen: React.FC = () => {
                     style={styles.actionButton}
                     icon="chevron-right"
                 >
-                    {isSaving ? 'Saving...' : 'Start Intervention'}
+                    {isSaving ? 'Saving...' : 'Submit Pre-Intervention'}
                 </Button>
 
                 <View style={styles.statusBox}>

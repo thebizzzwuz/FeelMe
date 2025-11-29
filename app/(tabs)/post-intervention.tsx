@@ -111,7 +111,7 @@ const PostRatingScreen: React.FC = () => {
             console.log("Post-Intervention Scores submitted successfully:", scores);
 
             // navigate to progress page
-            router.replace('/(tabs)/progress'); // 
+            router.replace('/(tabs)/post-results'); // 
 
         } catch (error: any) {
             const errorMessage = error.response?.data?.msg || error.message || 'Failed to save data.';
@@ -168,9 +168,8 @@ const PostRatingScreen: React.FC = () => {
                     disabled={!isComplete || isSaving}
                     loading={isSaving}
                     style={styles.actionButton}
-                    icon="poll"
                 >
-                    {isSaving ? 'Submitting...' : 'Submit & View Results'}
+                    {isSaving ? 'Submitting...' : 'Submit Post-Intervention'}
                 </Button>
 
                 <View style={styles.statusBox}>

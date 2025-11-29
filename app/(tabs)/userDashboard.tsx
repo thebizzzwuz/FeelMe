@@ -1,8 +1,10 @@
-import { StyleSheet, View } from 'react-native';
+import { useRouter } from 'expo-router';
 import * as React from 'react';
-import {Text, Button, SegmentedButtons} from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Button, SegmentedButtons, Text } from 'react-native-paper';
 
 export default function UserDashboard() {
+    const router  = useRouter();
     return (
 
         // Title Bar
@@ -13,7 +15,7 @@ export default function UserDashboard() {
 
             {/*Large Button for Participant to Log Data*/}
 
-            <Button icon='pencil' mode='contained' onPress={() => console.log('Pressed')}
+            <Button icon='pencil' mode='contained' onPress={() => router.push('/(tabs)/pre-intervention')}
                     style={[styles.largeButton]}
                     labelStyle={styles.textLargeButton}>
                Daily Self-Rating
