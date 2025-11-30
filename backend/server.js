@@ -4,13 +4,8 @@
     const mongoose = require('mongoose');
     const cookieParser = require('cookie-parser');
 
-    // Connect to MongoDB Atlas
-    const DB_URI = 'mongodb+srv://Josh:nI94iJYsxIBUJ5za@feelmeapp.dxrdzpx.mongodb.net/feelme_app?appName=feelmeapp';
-
-    if (!DB_URI) {
-        console.error('MongoDB URI is missing.');
-        process.exit(1);
-    }
+// Connect to MongoDB Atlas
+const DB_URI = process.env.DB_URI;
 
     mongoose.connect(DB_URI)
         .then(() => console.log('Connected to MongoDB Atlas!'))
@@ -18,7 +13,11 @@
 
     const app = express();
 
-    app.use(cors());
+ app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
     app.use(express.json());
     app.use(cookieParser());
 
@@ -45,7 +44,8 @@
     });
 
     // 3. Start the server
-    const PORT = process.env.PORT || 3000;
-    app.listen(3000, "0.0.0.0", () => {
-        console.log(`Server is running on 0.0.0.0:3000`);
+    const PORT = 3000;
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
     });
+

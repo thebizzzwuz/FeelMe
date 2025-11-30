@@ -1,8 +1,50 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import * as React from 'react';
-import {Text, Button, SegmentedButtons} from 'react-native-paper';
+import { Button, SegmentedButtons, Text } from 'react-native-paper';
 
 export default function UserDashboard() {
+    const router  = useRouter();
+    const [selectedButton, setSelectedButton] = useState('');
+
+    const downloadCSV = async () => {
+        try {
+            const token = await AsyncStorage.getItem('jwtToken');
+            if (!token) {
+            alert('User not authenticated');
+            return;
+            }
+
+            // Fetch the CSV from backend
+            const res = await fetch('http://192.168.1.55:3000/api/logs/download', {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            });
+
+            if (!res.ok) {
+            alert('Failed to download data');
+            return;
+            }
+
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+
+            // Trigger download in browser
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'my_logs.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+
+        } catch (err) {
+            console.error(err);
+            alert('Error downloading CSV');
+        }
+    };
+    
     return (
 
         // Title Bar
@@ -13,7 +55,7 @@ export default function UserDashboard() {
 
             {/*Large Button for Participant to Log Data*/}
 
-            <Button icon='pencil' mode='contained' onPress={() => console.log('Pressed')}
+            <Button icon='pencil' mode='contained' onPress={() => router.push('/(tabs)/pre-intervention')}
                     style={[styles.largeButton]}
                     labelStyle={styles.textLargeButton}>
                Daily Self-Rating
@@ -22,22 +64,34 @@ export default function UserDashboard() {
             {/*React Native Paper Segmented Buttons for View Progress and Download Data*/}
 
         <SegmentedButtons
-            icon='pencil'
-            // value={value}
-            // onValueChange={setValue}
-            buttons={[{value: 'View Progress',
-                label: 'View Progress',
-                icon: 'chart-line',
-                buttonColor: '#6200ee',
-                uncheckedColor: '#FFFFFF'},
-                {value: 'Download Data',
-                    label: 'Download Data',
-                    icon: 'download',
-                    buttonColor: '#6200ee',
-                    uncheckedColor: '#FFFFFF',}]}
-            style={styles.segmented}
-            textColor='#ffffff'
-        />
+                value={selectedButton}
+                onValueChange={async (value) => {
+                    setSelectedButton(value);
+                    if (value === 'Download Data') {
+                        await downloadCSV();
+                    } else if (value === 'View Progress') {
+                        router.push('/(tabs)/progress');
+                    }
+                }}
+                buttons={[
+                    {
+                        value: 'View Progress',
+                        label: 'View Progress',
+                        icon: 'chart-line',
+                        buttonColor: '#6200ee',
+                        uncheckedColor: '#FFFFFF',
+                    },
+                    {
+                        value: 'Download Data',
+                        label: 'Download Data',
+                        icon: 'download',
+                        buttonColor: '#6200ee',
+                        uncheckedColor: '#FFFFFF',
+                    },
+                ]}
+                style={styles.segmented}
+                textColor='#ffffff'
+            />
         </View>
 
 )

@@ -3,14 +3,17 @@ const router = express.Router();
 const studyController = require('../controllers/studyController');
 const theStudies = require('../models/study')
 
+
+// Get all study names
+router.get('/names', studyController.getAllStudyNames);
+
 // Route to create a new study
 router.post('/create',studyController.createStudy);
-
 
 //Get the name of a study route
 router.get('/studyname', async (req, res) =>{
 
-    // Get and return study names
+// Get and return study names
 
     try {
         const studyNames = await theStudies.find({}, 'studyName');
@@ -26,5 +29,7 @@ router.get('/studyname', async (req, res) =>{
     }
 })
 
+// Download all data for specific study
+router.get('/:studyId/download', studyController.downloadStudyData);
 
 module.exports = router;
