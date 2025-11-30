@@ -26,7 +26,7 @@ export default function CreateParticipants() {
 
     // Scrape database for a list of study names
 
-    axios.get('http://192.168.4.23:3000/studyname').then((res) => setStudiesList(res.data))
+    axios.get('http://192.168.4.23:3000/api/study/studyname').then((res) => setStudiesList(res.data))
         .catch((err) => console.error("Error", err)); }, []);
 
   // Register study participant function to post Participant ID and password to Express backend
@@ -44,7 +44,7 @@ export default function CreateParticipants() {
     }
 
     // The local IP for Expo and the backend server port
-    axios.post('http://192.168.4.23:3000/register', {participantId, password, assignedResearcher, researcherEmail, irbApprovalNumber, study})
+    axios.post('http://192.168.4.23:3000/api/auth/register', {participantId, password, assignedResearcher, researcherEmail, irbApprovalNumber, study})
         .then(res => {
           alert(res.data.status);
 
@@ -155,10 +155,10 @@ export default function CreateParticipants() {
                     <Menu.Item
                         key={study._id}
                         onPress={() => {
-                          setStudy(study.nameStudy);
+                          setStudy(study.studyName);
                           setVisibleStudies(false);
                         }}
-                        title={study.nameStudy}
+                        title={study.studyName}
                     />
                 ))
             ) : (
@@ -176,7 +176,7 @@ export default function CreateParticipants() {
       {/*Preliminary links to toggle Register/Sign In **** WILL BE DELETED*******/}
 
         <View style={styles.linkContainer}>
-          <Link href='/(tabs)/userDashboard' style={styles.linkText}>
+          <Link href='/admin-dashboard' style={styles.linkText}>
             Go to Dashboard
           </Link>
           <Link href='/' style={styles.linkText}>

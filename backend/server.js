@@ -3,7 +3,6 @@
     const cors = require('cors');
     const mongoose = require('mongoose');
     const cookieParser = require('cookie-parser');
-    const authRoutes = require("./routes/authRoute");
 
 // Connect to MongoDB Atlas
 const DB_URI = process.env.DB_URI;
@@ -34,6 +33,9 @@ const DB_URI = process.env.DB_URI;
     const studyRoute = require('./routes/studyRoute');
     app.use('/api/study', studyRoute);
 
+    const participantFromStudy = require('./routes/participantfromstudy')
+    app.use('/api/partfromstudy', participantFromStudy);
+
     const logRoutes = require('./routes/logRoute');
     app.use('/api/logs', logRoutes);
 
@@ -46,3 +48,4 @@ const DB_URI = process.env.DB_URI;
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
     });
+
