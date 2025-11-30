@@ -19,4 +19,5 @@ const studySchema = new mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('Study', studySchema);
+const Study = mongoose.models.AllStudies || mongoose.model("AllStudies", studySchema);
+module.exports = Study;

@@ -5,6 +5,7 @@ import { Dropdown } from 'react-native-paper-dropdown';
 import axios from "axios";
 import {useEffect} from "react";
 import * as React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Dropdown options to view study
 // const OPTIONS = [
@@ -18,13 +19,13 @@ export default function AdminDashboard() {
     const [studiesList, setStudiesList] = React.useState([]);
 
     useEffect(() => {
-    axios.get('http://192.168.4.23:3000/studyname')
+    axios.get('http://192.168.4.23:3000/api/study/studyname')
         .then((res) => {
 
         const mappedOptions = res.data.map(study => ({
-            label: study.nameStudy,
+            label: study.studyName,
             value: study._id,
-            name: study.nameStudy
+            name: study.studyName
         }));
 
     setStudiesList(mappedOptions);
@@ -32,9 +33,36 @@ export default function AdminDashboard() {
 .catch((err) => console.error("Error getting studies", err));
 }, []);
 
+    const signOut = async () =>{
+
+        try{
+            const token = await AsyncStorage.getItem('token');
+
+
+            await fetch('http://192.168.4.23:3000/signout', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            await AsyncStorage.removeItem('token');
+            navigate('/');
+            alert('Administrator signed out');
+        }
+
+        catch(error){
+            console.error(error);
+        }
+
+    }
 
   return (
     <View style={styles.container}>
+        <Button  onPress={signOut}
+                 >
+            Sign out
+        </Button>
         <ScrollView contentContainerStyle={styles.grid}>
             {/* <Text style={styles.text}>Feel Me {'\n'} Researcher Dashboard!</Text> */}
             <Card style={styles.gridCard}>

@@ -25,7 +25,12 @@ router.post('/register', async (req, res) => {
         .then(hash => {
 
             // Places new participant in the database
-            participant.create({participantId: Number(participantId),  password: hash})
+            participant.create({participantId: Number(participantId),
+                password: hash,
+                assignedResearcher: req.body.assignedResearcher,
+                researcherEmail: req.body.researcherEmail,
+                irbApprovalNumber: req.body.irbApprovalNumber,
+                study: req.body.study})
                 .then(user => {
                     res.json({status: 'Participant Created'});
                 })

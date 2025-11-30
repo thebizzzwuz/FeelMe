@@ -3,10 +3,9 @@
     const cors = require('cors');
     const mongoose = require('mongoose');
     const cookieParser = require('cookie-parser');
-    const authRoutes = require("./routes/authRoute");
 
     // Connect to MongoDB Atlas
-    const DB_URI = 'mongodb+srv://Josh:nI94iJYsxIBUJ5za@feelmeapp.dxrdzpx.mongodb.net/?appName=feelmeapp';
+    const DB_URI = 'mongodb+srv://Josh:nI94iJYsxIBUJ5za@feelmeapp.dxrdzpx.mongodb.net/feelme_app?appName=feelmeapp';
 
     if (!DB_URI) {
         console.error('MongoDB URI is missing.');
@@ -35,6 +34,9 @@
     const studyRoute = require('./routes/studyRoute');
     app.use('/api/study', studyRoute);
 
+    const participantFromStudy = require('./routes/participantfromstudy')
+    app.use('/api/partfromstudy', participantFromStudy);
+
     const logRoutes = require('./routes/logRoute');
     app.use('/api/logs', logRoutes);
 
@@ -44,6 +46,6 @@
 
     // 3. Start the server
     const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
+    app.listen(3000, "0.0.0.0", () => {
+        console.log(`Server is running on 0.0.0.0:3000`);
     });

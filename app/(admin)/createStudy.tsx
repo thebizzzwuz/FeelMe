@@ -22,7 +22,7 @@ export default function CreateStudy() {
     const CreateStudy = async () => {
 
         try {
-            const res = await axios.post('http://192.168.4.23:3000/createstudy', {
+            const res = await axios.post('http://192.168.4.23:3000/api/study/create', {
                 studyName: studyName,
                 xAxisName: variable1,
                 yAxisName: variable2,
@@ -43,9 +43,7 @@ export default function CreateStudy() {
                 console.error(error.response?.data || error.message);
                 alert('Study creation failed');
 
-
-
-        }   
+        }
     }
     
     return (
