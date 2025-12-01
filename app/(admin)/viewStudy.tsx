@@ -44,9 +44,28 @@ import { Dropdown } from 'react-native-paper-dropdown';
         const DeleteUser = async () => {
 
             try{
+                // Call delete user logs api
+                // The local IP for Expo and the backend server port
+                const res = await axios.post('http://192.168.1.55:3000/api/logs/delete-logs-by-participant', {chosenUser});
+
+                console.log(res.status);
+                alert(res.data.status);
+
+                if (res.status === 200) {
+                    console.log('Participant logs deleted successfully');
+                };
+
+            } catch (error) {
+                console.error('Error: Participant logs not deleted.', error);
+                alert('Participant logs not deleted. Try again.');  
+                // Clear input fields on error
+                setChosenUser(null);  
+
+            }
+            try{
                 // Call delete user api
                 // The local IP for Expo and the backend server port
-                const res = await axios.post('http://192.168.1.55:3000/api/auth/signin', {chosenUser});
+                const res = await axios.post('http://192.168.1.55:3000/api/participant/delete', {chosenUser});
 
                 console.log(res.status);
                 alert(res.data.status);
@@ -57,7 +76,7 @@ import { Dropdown } from 'react-native-paper-dropdown';
 
             } catch (error) {
                 console.error('Error: Participant not deleted.', error);
-                alert('User not deleted. Try again.');  
+                alert('Participant not deleted. Try again.');  
                 // Clear input fields on error
                 setChosenUser(null);  
             }
