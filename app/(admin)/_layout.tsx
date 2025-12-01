@@ -36,13 +36,47 @@ export default function RootLayout() {
         headerTitle: 'Admin Dashboard',
         tabBarIcon: ({focused, color}) => ( 
             <Ionicons 
-                name= {focused ? "information-circle" : "information-circle-outline"}
+                name= {focused ? "speedometer" : "speedometer-outline"}
                 size={24} 
                 color= {color} />
         ),
       }}/>
 
+        <Tabs.Screen name ="viewStudy"
+                     options={{
+                         headerTitle: 'View Study',
+                         tabBarIcon: ({focused, color}) => (
+                             <Ionicons
+                                 name= {focused ? "trending-up" : "trending-up-outline"}
+                                 size={24}
+                                 color= {color} />
+                         ),
+                     }}/>
+
+        <Tabs.Screen name ="createStudy"
+                     options={{
+                         headerTitle: 'Create Study',
+                         tabBarIcon: ({focused, color}) => (
+                             <Ionicons
+                                 name= {focused ? "clipboard" : "clipboard-outline"}
+                                 size={24}
+                                 color= {color} />
+                         ),
+                     }}/>
+
+        <Tabs.Screen name ="createParticipants"
+                     options={{
+                         headerTitle: 'Create Participants',
+                         tabBarIcon: ({focused, color}) => (
+                             <Ionicons
+                                 name= {focused ? "person-add" : "person-add-outline"}
+                                 size={24}
+                                 color= {color} />
+                         ),
+                     }}/>
+
     </Tabs>
       </PaperProvider>
   );
 }
+
