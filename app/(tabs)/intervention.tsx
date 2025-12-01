@@ -1,15 +1,20 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Text, useTheme, Button } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Button, Text, useTheme } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 
 const InterventionScreen: React.FC = () => {
     const insets = useSafeAreaInsets();
     const theme = useTheme();
+    const router = useRouter();
 
     const handleStartIntervention = () => {
         console.log("Intervention Start button pressed. (Placeholder action)");
+        //  Navigate to post-intervention
+        router.replace('/(tabs)/post-intervention');
     };
 
     return (
@@ -40,7 +45,7 @@ const InterventionScreen: React.FC = () => {
                     style={styles.actionButton}
                     icon="play"
                 >
-                    Start Intervention
+                    Proceed to Post-Intervention
                 </Button>
 
                 <Text variant="labelSmall" style={styles.footerText}>

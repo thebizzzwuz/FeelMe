@@ -11,7 +11,23 @@ const participantSchema = new mongoose.Schema ({
     password:{
         type: String,
         required: true,
-    }
+    },
+    assignedResearcher:{
+        type: String,
+        required: false,
+    },
+    researcherEmail:{
+        type: String,
+        required: false,
+    },
+    irbApprovalNumber:{
+        type: String,
+        required: false,
+    },
+    study:{
+        type: String,
+        required: false,
+    },
 }, { timestamps: true })
 
 //Exports the model

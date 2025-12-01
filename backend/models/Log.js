@@ -3,9 +3,7 @@ const mongoose = require('mongoose');
 const dailyLogSchema = new mongoose.Schema({
 
     participant:{
-        //type:mongoose.Schema.Types.ObjectId,
-        //For Testing
-        type:Number,
+        type:mongoose.Schema.Types.ObjectId,
         required: true,
         index: true,
         ref: 'participant'
@@ -13,7 +11,6 @@ const dailyLogSchema = new mongoose.Schema({
 
     studyId:{
         //type: mongoose.Schema.Types.ObjectId,
-        //For testing
         type:String,
         required: true,
         index: true,

@@ -1,9 +1,11 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from "expo-router";
+import {PaperProvider} from "react-native-paper";
 
 
 export default function RootLayout() {
   return(
+      <PaperProvider>
     <Tabs
         screenOptions={{
             tabBarActiveTintColor: '#ffd33d', 
@@ -39,6 +41,8 @@ export default function RootLayout() {
                 color= {color} />
         ),
       }}/>
+
     </Tabs>
+      </PaperProvider>
   );
 }

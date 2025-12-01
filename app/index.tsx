@@ -3,7 +3,8 @@
 // adapted from Josh Goldbloom's login code
 
 import axios from "axios";
-import { navigate } from 'expo-router/build/global-state/routing';
+// import { navigate } from 'expo-router/build/global-state/routing';
+import { useRouter } from 'expo-router';
 import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import { Button, Card, Text, TextInput } from "react-native-paper";
@@ -16,6 +17,8 @@ const PlaceholderImage = require("@/assets/images/background-image.png");
 
 // Main login screen function with authentication to backend
 export default function Index() {
+
+  const router = useRouter()
 
   // State variables and functions to hold Participant ID and password
 
@@ -34,7 +37,7 @@ export default function Index() {
       }
 
       // The local IP for Expo and the backend server port
-      const res = await axios.post('http://192.168.1.43:8081/api/auth/signin', {participantId, password});
+      const res = await axios.post('http://192.168.1.55:3000/api/auth/signin', {participantId, password});
 
       console.log(res.status);
       alert(res.data.status);
@@ -49,9 +52,9 @@ export default function Index() {
 
       // Admin dashboard navigation
       if (Number(participantId[0]) === 9) {
-        navigate('/(admin)/admin-dashboard');
+       router.push('/(admin)/admin-dashboard');
       } else {
-        navigate('/(tabs)/userDashboard');
+        router.push('/(tabs)/userDashboard');
       }
     } catch (error) {
       console.error('Error during sign-in:', error);
@@ -92,7 +95,7 @@ export default function Index() {
 
             {/* Sign in button  */}
             {/* <Button mode='contained' onPress={() => navigate('/(admin)/admin-dashboard')}>Sign In</Button> */}
-             <Button style= {styles.button} mode='contained' onPress={() => navigate('/(admin)/admin-dashboard')}>Sign In</Button>
+             <Button style= {styles.button} mode='contained' onPress={SignInUser}>Sign In</Button>
             <Button style= {styles.button} mode='contained' onPress={() => alert('Reach out to Researcher to reset your password')}>Forgot Password?</Button>
           </Card.Actions>
         </Card>

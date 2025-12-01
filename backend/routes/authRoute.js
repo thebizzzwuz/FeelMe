@@ -25,7 +25,12 @@ router.post('/register', async (req, res) => {
         .then(hash => {
 
             // Places new participant in the database
-            participant.create({participantId: Number(participantId),  password: hash})
+            participant.create({participantId: Number(participantId),
+                password: hash,
+                assignedResearcher: req.body.assignedResearcher,
+                researcherEmail: req.body.researcherEmail,
+                irbApprovalNumber: req.body.irbApprovalNumber,
+                study: req.body.study})
                 .then(user => {
                     res.json({status: 'Participant Created'});
                 })
@@ -63,7 +68,7 @@ router.post('/signin', async (req, res) => {
 
             if (response) {
                 //Assign the jwt and respond with the jwt
-                const token = jwt.sign({id: participantId},
+                const token = jwt.sign({id: user._id},
                     'jwt-secret-key', {expiresIn: '180d'});
                 return res.status(200).json({status: 'Successfully Signed In', token: token,
                     user: {id: user._id, participantId: user.participantId}});

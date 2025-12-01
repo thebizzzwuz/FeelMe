@@ -1,10 +1,12 @@
-import React, { useState, useCallback } from 'react';
-import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Text, useTheme, Button } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Slider from '@react-native-community/slider'; 
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Slider from '@react-native-community/slider';
+import axios from 'axios';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { Alert, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
+import { Button, Text, useTheme } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -13,30 +15,7 @@ interface ScoreData {
     wellBeing: number | null;
 }
 
-const savePostRatingToMongo = async (userId: string, data: ScoreData): Promise<void> => {
-    const MONGODB_API_URL = "https://mockapi.example.com/api/v1/ratings";
-
-    console.log(`Attempting to save POST-RATING data to (mock) endpoint: ${MONGODB_API_URL}`);
-
-    try {
-        await fetch(MONGODB_API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-User-ID': userId },
-            body: JSON.stringify({
-                userId,
-                timestamp: new Date().toISOString(),
-                type: 'post-intervention',
-                ...data,
-            }),
-        });
-        await new Promise(resolve => setTimeout(resolve, 1200)); 
-        return; 
-    } catch (error) {
-        console.error("Network or API Save Error:", error);
-        throw new Error("Failed to save post-intervention data to the mock MongoDB endpoint.");
-    }
-};
-
+// Slider Component
 interface RatingSliderProps {
     label: string;
     value: number | null;
@@ -50,7 +29,6 @@ interface RatingSliderProps {
 }
 
 const RatingSlider: React.FC<RatingSliderProps> = ({ label, value, minLabel, maxLabel, onChange, min, max, step, theme }) => {
-
     const sliderValue = value !== null ? value : min;
 
     const handleValueChange = (newValue: number) => {
@@ -61,26 +39,23 @@ const RatingSlider: React.FC<RatingSliderProps> = ({ label, value, minLabel, max
     return (
         <View style={styles.inputGroup}>
             <Text variant="titleMedium" style={styles.inputLabel}>{label}</Text>
-
             <View style={{ width: '100%', alignItems: 'center' }}>
                 <Text variant="headlineSmall" style={{ marginBottom: 15, color: theme.colors.primary, fontWeight: 'bold' }}>
-                    {value !== null ? value.toFixed(1) : 'Move Slider'}
+                    {value !== null ? value.toFixed(0) : 'Move Slider'}
                 </Text>
-
                 <Slider
                     style={styles.slider}
                     minimumValue={min}
                     maximumValue={max}
                     step={step}
                     value={sliderValue}
-                    onValueChange={handleValueChange} // Updates during drag
-                    onSlidingComplete={handleValueChange} // Ensures final value is captured
+                    onValueChange={handleValueChange}
+                    onSlidingComplete={handleValueChange}
                     minimumTrackTintColor={theme.colors.primary}
                     maximumTrackTintColor="#DCDCDC"
                     thumbTintColor={theme.colors.primary}
                 />
             </View>
-
             <View style={styles.scaleLabels}>
                 <Text variant="labelSmall" style={styles.scaleLabelText}>{minLabel}</Text>
                 <Text variant="labelSmall" style={styles.scaleLabelText}>{maxLabel}</Text>
@@ -89,65 +64,82 @@ const RatingSlider: React.FC<RatingSliderProps> = ({ label, value, minLabel, max
     );
 };
 
-const PostRatingScreen: React.FC = () => {
+const PreRatingScreen: React.FC = () => {
     const insets = useSafeAreaInsets();
     const theme = useTheme();
+    const router = useRouter();
 
     const [scores, setScores] = useState<ScoreData>({ stress: null, wellBeing: null });
     const [isSaving, setIsSaving] = useState(false);
-
-    const [tempScores, setTempScores] = useState<ScoreData>({ stress: 1, wellBeing: 1 });
-
-    const userId = "MOCK_USER_ID_12345";
-    const [statusMessage, setStatusMessage] = useState('Ready to submit post-intervention scores.');
+    const [statusMessage, setStatusMessage] = useState('Ready to assess.');
 
     const isComplete = scores.stress !== null && scores.wellBeing !== null;
 
+    const handleScoreChange = (type: 'stress' | 'wellBeing', value: number) => {
+        setScores(prev => ({ ...prev, [type]: value }));
+    }
+
     const handleSubmit = async () => {
         if (!isComplete) {
-            setStatusMessage('Please rate both Stress and Well-being before submitting.');
+            setStatusMessage('Please rate both Stress and Well-being to continue.');
             return;
         }
 
         setIsSaving(true);
-        setStatusMessage('Saving post-intervention scores...');
+        setStatusMessage('Saving baseline scores...');
 
         try {
-            await savePostRatingToMongo(userId, scores);
+            // Get the logged-in user's JWT
+            const token = await AsyncStorage.getItem('jwtToken');
+            if (!token) {
+                Alert.alert("Not logged in", "Please log in before submitting your ratings.");
+                setIsSaving(false);
+                return;
+            }
 
-            setStatusMessage('Scores saved! View the results in the Progress tab.');
+            // Send data to your backend API
+            const API_URL = 'http://localhost:3000/api/logs/submit-log'; // Replace with your server
+            const response = await axios.post(API_URL, {
+                studyId: 'study_001',
+                logX: scores.wellBeing,
+                logY: scores.stress,
+                isPostIntervention: false,
+                comment: '', // optional, you can add a TextInput for comments if you want
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-        } catch (e) {
-            const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred.';
-            console.error("Submission Error:", errorMessage);
+            setStatusMessage('Baseline saved! Proceeding to Intervention.');
+            console.log("Pre-Intervention Scores submitted successfully:", scores, response.data);
+
+            //  Navigate to the middle screen
+            router.replace('/(tabs)/pre-results');
+
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.msg || error.message || 'Failed to save data.';
+            console.error("MongoDB Save Error:", error);
             setStatusMessage(errorMessage);
         } finally {
             setIsSaving(false);
         }
     };
 
-    const handleScoreChange = (type: 'stress' | 'wellBeing', value: number) => {
-        setTempScores(prev => ({ ...prev, [type]: value }));
-        setScores(prev => ({ ...prev, [type]: value }));
-    }
-
     return (
         <View style={[styles.mainView, { paddingTop: insets.top, backgroundColor: theme.colors.background }]}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-
                 <MaterialCommunityIcons 
-                    name="chart-line-variant" 
+                    name="calendar-check-outline" 
                     size={48} 
                     color={theme.colors.primary} 
                     style={{ marginBottom: 20 }}
                 />
-
                 <Text variant="headlineMedium" style={styles.headline}>
-                    Step 2: Post-Intervention Rating
+                    Step 1: Pre-Intervention Rating
                 </Text>
-
                 <Text variant="bodyLarge" style={styles.subTitle}>
-                    How do you rate your current stress and well-being *after* the guided exercise?
+                    Please rate your current stress and well-being before starting the guided exercise.
                 </Text>
 
                 <RatingSlider
@@ -180,9 +172,9 @@ const PostRatingScreen: React.FC = () => {
                     disabled={!isComplete || isSaving}
                     loading={isSaving}
                     style={styles.actionButton}
-                    icon="poll"
+                    icon="chevron-right"
                 >
-                    {isSaving ? 'Submitting...' : 'Submit & View Results'}
+                    {isSaving ? 'Saving...' : 'Submit Pre-Intervention'}
                 </Button>
 
                 <View style={styles.statusBox}>
@@ -194,50 +186,23 @@ const PostRatingScreen: React.FC = () => {
                     />
                     <Text variant="labelMedium" style={{color: theme.colors.outline}}>{statusMessage}</Text>
                 </View>
-
-                <Text variant="labelSmall" style={styles.userIdText}>
-                    Simulated User ID: {userId}
-                </Text>
-
             </ScrollView>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    mainView: { flex: 1, },
+    mainView: { flex: 1 },
     scrollContainer: { flexGrow: 1, padding: 20, alignItems: 'center' },
     headline: { marginTop: 10, marginBottom: 5, textAlign: 'center', fontWeight: 'bold', color: '#2C3E50' },
     subTitle: { marginBottom: 40, textAlign: 'center', color: '#7F8C8D', paddingHorizontal: 10 },
-    inputGroup: {
-        width: '100%',
-        marginBottom: 40,
-        alignItems: 'center',
-        paddingHorizontal: 20
-    },
+    inputGroup: { width: '100%', marginBottom: 40, alignItems: 'center', paddingHorizontal: 20 },
     inputLabel: { marginBottom: 5, color: '#34495E', fontWeight: '600' },
-
-    // Slider Styling
-    slider: {
-        width: '100%',
-        height: 40, 
-    },
-    scaleLabels: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        paddingHorizontal: 5,
-        marginTop: -10,
-    },
-    scaleLabelText: {
-        maxWidth: '40%',
-        textAlign: 'center',
-        color: '#95A5A6',
-    },
-
-    actionButton: { width: '90%', marginVertical: 15, borderRadius: 10, },
+    slider: { width: '100%', height: 40 },
+    scaleLabels: { flexDirection: 'row', justifyContent: 'space-between', width: '100%', paddingHorizontal: 5, marginTop: -10 },
+    scaleLabelText: { maxWidth: '40%', textAlign: 'center', color: '#95A5A6' },
+    actionButton: { width: '90%', marginVertical: 15, borderRadius: 10 },
     statusBox: { flexDirection: 'row', alignItems: 'center', marginTop: 10, padding: 10, borderRadius: 8, backgroundColor: '#F0F3F4' },
-    userIdText: { marginTop: 15, color: '#95A5A6', textAlign: 'center' }
 });
 
-export default PostRatingScreen;
+export default PreRatingScreen;

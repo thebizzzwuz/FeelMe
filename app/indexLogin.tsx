@@ -31,7 +31,7 @@ export default function IndexLogin() {
         }
 
             // The local IP for Expo and the backend server port
-        const res = await axios.post('http://192.168.1.8:3000/signin', {participantId, password})
+        const res = await axios.post('http://192.168.1.55:3000/signin', {participantId, password})
 
         console.log(res.status);
         alert(res.data.status);
