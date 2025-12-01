@@ -6,6 +6,7 @@ import axios from 'axios';
 import * as React from "react";
 import {Button, Menu} from "react-native-paper";
 
+
 export default function CreateParticipants() {
 
   //State variables and functions. Holding Participant ID, password, assigned researcher, researcher email, irb#
@@ -77,7 +78,7 @@ export default function CreateParticipants() {
       <View style={styles.imageContainer}>
 
       </View>
-        <Text style={styles.title}>Register a New Participant</Text>
+        <Text style={styles.title}>Create a New Participant</Text>
 
         {/*Text field for Participant ID*/}
 
@@ -169,7 +170,7 @@ export default function CreateParticipants() {
         {/*Button to register*/}
 
           <TouchableOpacity style={styles.registerButton} onPress={RegisterParticipant}>
-            <Text style={styles.registerButtonText}>Register</Text>
+            <Text style={styles.registerButtonText}>Create</Text>
           </TouchableOpacity>
       </View>
 
