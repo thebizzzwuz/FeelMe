@@ -23,6 +23,7 @@
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "expo": "~54.0.19",
     "expo-constants": "~18.0.10",
     "expo-font": "~14.0.9",

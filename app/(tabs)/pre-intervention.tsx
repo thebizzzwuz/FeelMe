@@ -97,10 +97,18 @@ const PreRatingScreen: React.FC = () => {
                 return;
             }
 
+            // Get study name from AsyncStorage
+            const studyName = await AsyncStorage.getItem('studyName');
+            if (!studyName) {
+            Alert.alert("Missing Study", "Could not determine your study. Please log in again.");
+            setIsSaving(false);
+            return;
+            }
+
             // Send data to your backend API
             const API_URL = 'http://localhost:3000/api/logs/submit-log'; // Replace with your server
             const response = await axios.post(API_URL, {
-                studyId: 'study_001',
+                studyId: studyName,
                 logX: scores.wellBeing,
                 logY: scores.stress,
                 isPostIntervention: false,

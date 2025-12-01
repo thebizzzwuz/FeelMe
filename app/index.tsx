@@ -37,17 +37,18 @@ export default function Index() {
       }
 
       // The local IP for Expo and the backend server port
-      const res = await axios.post('http://192.168.1.43:3000/api/auth/signin', {participantId, password});
+      const res = await axios.post('http://192.168.4.23:3000/api/auth/signin', {participantId, password});
 
       console.log(res.status);
       alert(res.data.status);
 
       // Store JWT token upon successful login
-      const token = res.data.token;
+      const {token, user} = res.data;
 
       if (res.status === 200) {
         await AsyncStorage.setItem('jwtToken', token);
-        console.log('Token stored successfully', token);
+        await AsyncStorage.setItem('studyName', user.study);
+        console.log('Token stored successfully', token, user.study);
       };
 
       // Admin dashboard navigation

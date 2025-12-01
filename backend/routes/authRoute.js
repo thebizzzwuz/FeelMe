@@ -71,7 +71,7 @@ router.post('/signin', async (req, res) => {
                 const token = jwt.sign({id: user._id},
                     'jwt-secret-key', {expiresIn: '180d'});
                 return res.status(200).json({status: 'Successfully Signed In', token: token,
-                    user: {id: user._id, participantId: user.participantId}});
+                    user: {id: user._id, participantId: user.participantId, study: user.study}});
             }
             else{
                 return res.status(401).json({ message: 'Invalid password' });

@@ -18,7 +18,11 @@ import { styles } from '../../app/src/styles/styles';
         useEffect(() => {
             if (!studyName) return;
 
-            axios.get(`http://192.168.1.43:3000/api/partfromstudy/${encodeURIComponent(String(studyName))}`)
+            
+            setChosenUser(null);
+            setUsersList([])
+
+            axios.get(`http://192.168.1.55:3000/api/partfromstudy/${encodeURIComponent(String(studyName))}`)
                 .then((res) => {
                     console.log("Raw participant data:", res.data);
                     const mappedUsers = res.data.map(user => ({
@@ -47,39 +51,47 @@ import { styles } from '../../app/src/styles/styles';
             try{
                 // Call delete user logs api
                 // The local IP for Expo and the backend server port
-                const res = await axios.post('http://192.168.1.43:3000/api/logs/delete-logs-by-participant', {chosenUser});
+                const res = await axios.delete('http://192.168.4.23:3000/api/logs/delete-logs-by-participant', {data: { id: chosenUser}} as any);
 
                 console.log(res.status);
-                alert(res.data.status);
+                alert(res.data.message);
 
                 if (res.status === 200) {
                     console.log('Participant logs deleted successfully');
-                };
+
+
+                }
 
             } catch (error) {
                 console.error('Error: Participant logs not deleted.', error);
-                alert('Participant logs not deleted. Try again.');  
+                alert('Participant logs not deleted. Try again.');
                 // Clear input fields on error
-                setChosenUser(null);  
+                setChosenUser(null);
+
             }
 
             try{
                 // Call delete user api
                 // The local IP for Expo and the backend server port
-                const res = await axios.post('http://192.168.1.43:3000/api/participant/delete', {chosenUser});
+                console.log(chosenUser)
+                const res = await axios.delete('http://192.168.4.23:3000/api/participant/delete', {data: { id: chosenUser}} as any);
 
                 console.log(res.status);
-                alert(res.data.status);
+                alert(res.data.message);
 
                 if (res.status === 200) {
                     console.log('Participant deleted successfully');
-                };
+                }
+
+                setUsersList(prev => prev.filter(user => user.value !== chosenUser));
+                setChosenUser(null);
 
             } catch (error) {
                 console.error('Error: Participant not deleted.', error);
                 alert('Participant not deleted. Try again.');  
+
                 // Clear input fields on error
-                setChosenUser(null);  
+                setChosenUser(null);
             }
     }
 
@@ -88,23 +100,37 @@ import { styles } from '../../app/src/styles/styles';
                 <ScrollView contentContainerStyle={styles.grid}>
                     <Card style={styles.gridCard}>
                         <Text style={styles.text}>{studyName}</Text>
-                        <Dropdown 
-                            label="Choose a User"
-                            placeholder="Choose a User"
+
+                        {usersList.length > 0 ? (
+
+                        <Dropdown
+                            key = {`${studyName}-${usersList.length}`}
+                            label="Choose a Participant"
+                            placeholder="Choose a Participant"
                             options={usersList}
                             value={chosenUser}
                             onSelect={setChosenUser}
                             mode='outlined'
-                        />
+                        /> )
+                            : ( <Dropdown
+                                    key={`${studyName}-empty`}
+                                    label="Choose a Participant"
+                                    placeholder="Choose a Participant"
+                                    options={[]}
+                                    value={null}
+                                    onSelect={setChosenUser}
+                                    mode="outlined"
+                                />
+                            )}
                     </Card>
                     <Card style={styles.gridCard}>
-                        <Text style={styles.text}>USER DATA CHART AND TABLE HERE</Text>
+                        <Text style={styles.text}>PARTICIPANT DATA CHART AND TABLE HERE</Text>
                     </Card>
                     <Card style={styles.gridCard}>
                         <Button style= {styles.button} mode='elevated' onPress={() => navigate('./createParticipants')}> Create New
                             User </Button>
                         <Button style= {styles.button} mode='elevated'> Download Data </Button>
-                        <Button style= {styles.button} mode='elevated' onPress={DeleteUser}> DELETE USER </Button>
+                        <Button style= {styles.button} mode='elevated' onPress={DeleteUser}> DELETE PARTICIPANT </Button>
                         <Button style= {styles.button} mode='elevated' onPress={() => navigate('/admin-dashboard')}> Return to
                             Dashboard </Button>
                     </Card>

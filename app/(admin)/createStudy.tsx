@@ -134,6 +134,7 @@ export default function CreateStudy() {
                 /> */}
             </ScrollView>
         </View>
+        </View>
 
     )
 }

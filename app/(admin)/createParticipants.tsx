@@ -27,7 +27,7 @@ export default function CreateParticipants() {
 
     // Scrape database for a list of study names
 
-    axios.get('http://192.168.1.43:3000/api/study/studyname').then((res) => setStudiesList(res.data))
+    axios.get('http://192.168.1.55:3000/api/study/studyname').then((res) => setStudiesList(res.data))
         .catch((err) => console.error("Error", err)); }, []);
 
   // Register study participant function to post Participant ID and password to Express backend
@@ -45,7 +45,7 @@ export default function CreateParticipants() {
     }
 
     // The local IP for Expo and the backend server port
-    axios.post('http://192.168.1.43:3000/api/auth/register', {participantId, password, assignedResearcher, researcherEmail, irbApprovalNumber, study})
+    axios.post('http://192.168.1.55:3000/api/auth/register', {participantId, password, assignedResearcher, researcherEmail, irbApprovalNumber, study})
         .then(res => {
           alert(res.data.status);
 
@@ -171,7 +171,7 @@ export default function CreateParticipants() {
         {/*Button to register*/}
 
           <TouchableOpacity style={styles.registerButton} onPress={RegisterParticipant}>
-            <Text style={styles.registerButtonText}>Register</Text>
+            <Text style={styles.registerButtonText}>Create</Text>
           </TouchableOpacity>
         </Card>
         

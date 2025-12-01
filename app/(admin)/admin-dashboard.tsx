@@ -20,7 +20,7 @@ export default function AdminDashboard() {
     const [studiesList, setStudiesList] = React.useState([]);
 
     useEffect(() => {
-    axios.get('http://192.168.1.43:3000/api/study/studyname')
+    axios.get('http://192.168.1.55:3000/api/study/studyname')
         .then((res) => {
 
         const mappedOptions = res.data.map(study => ({
@@ -40,7 +40,7 @@ export default function AdminDashboard() {
             const token = await AsyncStorage.getItem('token');
 
 
-            await fetch('http://192.168.1.43:3000/signout', {
+            await fetch('http://192.168.1.55:3000/signout', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,

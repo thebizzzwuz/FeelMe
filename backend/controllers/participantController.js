@@ -2,24 +2,21 @@ const participant = require('../models/participant')
 
 exports.deleteParticipant = async (req, res) => {
     try {
-        const { participantId } = req.body;
+        const { id } = req.body;
 
         // Validation checks
-        if (!participantId) {
+        if (!id) {
             return res.status(400).json({ error: 'Participant ID Missing' });
         }   
 
-        try {
-            const userExists = await participant.findOne({participantId});
+            const userExists = await participant.findById(id);
             if (!userExists) return res.status(400).json({message: 'Participant does not exist.'});
-        }
-        catch (err) {
-            res.status(500).json({ message: 'Error checking participant existence' });
-        }
-        // Delete participant from the database
-        await participant.deleteOne({ participantId });
 
-        res.status(200).json({ message: 'Participant deleted successfully' });
+        // Delete participant from the database
+
+        await participant.findByIdAndDelete(id);
+
+        res.status(200).json({ message: 'Participant deleted!' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Server error' });
