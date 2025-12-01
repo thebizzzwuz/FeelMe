@@ -1,7 +1,8 @@
 import axios from 'axios';
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {StyleSheet, View, ViewStyle} from 'react-native';
 import { Button, Menu, Provider as PaperProvider, SegmentedButtons, Text, TextInput } from 'react-native-paper';
+import { styles } from '../../app/src/styles/styles';
 // import {router} from "expo-router";
 import {useRouter} from 'expo-router';
 // import DropDown from 'react-native-paper-dropdown';
@@ -129,7 +130,7 @@ export default function CreateStudy() {
 </PaperProvider>
 
             {/*React Native Paper Segmented Buttons for Return to Dashboard and Create*/}
-
+            <View style={{ width: '111%', marginTop: 50 }}>
             <SegmentedButtons
                 value={chosenStudy}
                 onValueChange={async (val) => {
@@ -147,94 +148,95 @@ export default function CreateStudy() {
                 buttons={[{value: 'Return to Dashboard',
                     label: 'Return to Dashboard',
                     icon: 'home',
-                    uncheckedColor: '#FFFFFF',    
+                    uncheckedColor: 'black',
                 },
                     {value: 'Create',
                         label: 'Create',
                         icon: 'plus',
-                        uncheckedColor: '#FFFFFF',}]}
+                        uncheckedColor: 'black',}]}
                 style={styles.segmented}
                />
+        </View>
         </View>
 
     )
 }
 
-const styles = StyleSheet.create({
-
-    container: {
-        backgroundColor: '#25282E',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-    },
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    segmented: {
-        width: '60%',
-        marginBottom: 10,
-    },
-    header: {
-        color: 'white',
-        fontSize: 40,
-        paddingBottom: 35
-    },
-    title: {
-        paddingBottom: 150,
-        color: 'white',
-        fontSize: 30
-    },
-
-    largeButton: {
-        backgroundColor: '#ffffff',
-        width: 300,
-        height: 70,
-        borderRadius: 15,
-        justifyContent: 'center',
-        marginTop: 20,
-        marginBottom: 100,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 6,
-
-    },
-    textLargeButton: {
-        color: '#000',
-        fontSize: 22,
-        fontWeight: 'bold',
-        paddingBottom: 3
-    },
-    inputContent: {
-        paddingVertical: 10,
-    },
-    input: {
-        backgroundColor: 'white',
-        width: '30%',
-        height: 30,
-        fontSize: 18,
-        marginBottom: 16,
-        borderRadius: 25,
-        elevation: 8,
-    },
-
-    titleBar: {
-        backgroundColor: 'white',
-        width: '10%',
-        paddingVertical: 1,
-        marginBottom: 10,
-        alignItems: 'center',
-        borderRadius: 10,
-        elevation: 3,
-    },
-    titleText: {
-        color: 'black',
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
-
-});
+// const styles = StyleSheet.create({
+//
+//     container: {
+//         backgroundColor: '#25282E',
+//         flex: 1,
+//         alignItems: 'center',
+//         justifyContent: 'flex-end',
+//     },
+//     content: {
+//         flex: 1,
+//         justifyContent: 'center',
+//         alignItems: 'center',
+//     },
+//     segmented: {
+//         width: '60%',
+//         marginBottom: 10,
+//     },
+//     header: {
+//         color: 'white',
+//         fontSize: 40,
+//         paddingBottom: 35
+//     },
+//     title: {
+//         paddingBottom: 150,
+//         color: 'white',
+//         fontSize: 30
+//     },
+//
+//     largeButton: {
+//         backgroundColor: '#ffffff',
+//         width: 300,
+//         height: 70,
+//         borderRadius: 15,
+//         justifyContent: 'center',
+//         marginTop: 20,
+//         marginBottom: 100,
+//         shadowColor: '#000',
+//         shadowOffset: { width: 0, height: 4 },
+//         shadowOpacity: 0.25,
+//         shadowRadius: 4,
+//         elevation: 6,
+//
+//     },
+//     textLargeButton: {
+//         color: '#000',
+//         fontSize: 22,
+//         fontWeight: 'bold',
+//         paddingBottom: 3
+//     },
+//     inputContent: {
+//         paddingVertical: 10,
+//     },
+//     input: {
+//         backgroundColor: 'white',
+//         width: '30%',
+//         height: 30,
+//         fontSize: 18,
+//         marginBottom: 16,
+//         borderRadius: 25,
+//         elevation: 8,
+//     },
+//
+//     titleBar: {
+//         backgroundColor: 'white',
+//         width: '10%',
+//         paddingVertical: 1,
+//         marginBottom: 10,
+//         alignItems: 'center',
+//         borderRadius: 10,
+//         elevation: 3,
+//     },
+//     titleText: {
+//         color: 'black',
+//         fontSize: 15,
+//         fontWeight: 'bold',
+//     },
+//
+// });
