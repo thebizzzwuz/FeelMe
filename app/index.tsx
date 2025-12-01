@@ -43,11 +43,12 @@ export default function Index() {
       alert(res.data.status);
 
       // Store JWT token upon successful login
-      const token = res.data.token;
+      const {token, user} = res.data;
 
       if (res.status === 200) {
         await AsyncStorage.setItem('jwtToken', token);
-        console.log('Token stored successfully', token);
+        await AsyncStorage.setItem('studyName', user.study);
+        console.log('Token stored successfully', token, user.study);
       };
 
       // Admin dashboard navigation

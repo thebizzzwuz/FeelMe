@@ -17,7 +17,7 @@ import { Dropdown } from 'react-native-paper-dropdown';
         useEffect(() => {
             if (!studyName) return;
 
-            axios.get(`http://192.168.4.23:3000/api/partfromstudy/${encodeURIComponent(String(studyName))}`)
+            axios.get(`http://192.168.1.55:3000/api/partfromstudy/${encodeURIComponent(String(studyName))}`)
                 .then((res) => {
                     console.log("Raw participant data:", res.data);
                     const mappedUsers = res.data.map(user => ({
