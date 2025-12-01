@@ -1,10 +1,11 @@
 // import ImageViewer from '@/components/ImageViewer';
-import {StyleSheet, Text, TextInput, View, TouchableOpacity} from 'react-native';
-import {Link} from 'expo-router';
-import {useEffect, useState} from 'react';
 import axios from 'axios';
+import { navigate } from 'expo-router/build/global-state/routing';
 import * as React from "react";
-import {Button, Menu} from "react-native-paper";
+import { useEffect, useState } from 'react';
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, Card, Menu } from "react-native-paper";
+import { styles } from '../../app/src/styles/styles';
 
 export default function CreateParticipants() {
 
@@ -26,7 +27,7 @@ export default function CreateParticipants() {
 
     // Scrape database for a list of study names
 
-    axios.get('http://192.168.4.23:3000/api/study/studyname').then((res) => setStudiesList(res.data))
+    axios.get('http://192.168.1.43:3000/api/study/studyname').then((res) => setStudiesList(res.data))
         .catch((err) => console.error("Error", err)); }, []);
 
   // Register study participant function to post Participant ID and password to Express backend
@@ -44,7 +45,7 @@ export default function CreateParticipants() {
     }
 
     // The local IP for Expo and the backend server port
-    axios.post('http://192.168.4.23:3000/api/auth/register', {participantId, password, assignedResearcher, researcherEmail, irbApprovalNumber, study})
+    axios.post('http://192.168.1.43:3000/api/auth/register', {participantId, password, assignedResearcher, researcherEmail, irbApprovalNumber, study})
         .then(res => {
           alert(res.data.status);
 
@@ -71,80 +72,17 @@ export default function CreateParticipants() {
             }}})
   }
   return (
-    <View
-      style={styles.container}
-    >
-      <View style={styles.imageContainer}>
-
-      </View>
-        <Text style={styles.title}>Register a New Participant</Text>
-
-        {/*Text field for Participant ID*/}
-
-         {/*Participant ID*/}
-        <View style={styles.form}>
-          <Text style={styles.label}>Participant ID</Text>
-          <TextInput
-              style={styles.input}
-              placeholder='Enter Participant ID'
-              placeholderTextColor='#cccccc'
-              value={participantId}
-              onChangeText={setParticipantId}
-          />
-
-        {/*Text field for Password*/}
-
-          {/* Password */}
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-              style={styles.input}
-              placeholder='Enter Password'
-              placeholderTextColor='#cccccc'
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-          />
-
-          {/*Text field for Assigned Researcher Name*/}
-
-          {/* Assigned Researcher Name */}
-          <Text style={styles.label}>Assigned Researcher Name</Text>
-          <TextInput
-              style={styles.input}
-              placeholder='Assigned Researcher Name'
-              placeholderTextColor='#cccccc'
-              value={assignedResearcher}
-              onChangeText={setAssignedResearcher}
-          />
-
-          {/*Text field for Researcher Email*/}
-
-          {/* Researcher Email */}
-          <Text style={styles.label}>Researcher Email</Text>
-          <TextInput
-              style={styles.input}
-              placeholder='Researcher Email'
-              placeholderTextColor='#cccccc'
-              value={researcherEmail}
-              onChangeText={setResearcherEmail}
-          />
-
-          {/*Text field for IRB Approval #*/}
-
-          {/* IRB Approval # */}
-          <Text style={styles.label}>IRB Approval #</Text>
-          <TextInput
-              style={styles.input}
-              placeholder='IRB Approval #'
-              placeholderTextColor='#cccccc'
-              value={irbApprovalNumber}
-              onChangeText={setIrbApprovalNumber}
-          />
-
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.grid}>
+        <Card style={styles.gridCard}>
+          <Text style={styles.text}>Register a New Participant</Text>
+        </Card>
+          
           {/*Dropdown menu for list of studies #*/}
 
           <Menu visible={visibleStudies} onDismiss={() => setVisibleStudies(false) } anchor={
             <Button
+                style={styles.button}
                 mode = "outlined" onPress={() => setVisibleStudies(true)} textColor = "white">
               {study}
             </Button>
@@ -166,88 +104,85 @@ export default function CreateParticipants() {
             )}
           </Menu>
 
+          {/*Text field for Participant ID*/}
+
+          {/*Participant ID*/}
+          <Card style={styles.gridCard}>
+            <Text style={styles.text3}>Participant ID</Text>
+            <TextInput
+                style={styles.input}
+                placeholder='Enter Participant ID'
+                placeholderTextColor='#cccccc'
+                value={participantId}
+                onChangeText={setParticipantId}
+            />
+
+          {/*Text field for Password*/}
+
+            {/* Password */}
+            <Text style={styles.text3}>Password</Text>
+            <TextInput
+                style={styles.input}
+                placeholder='Enter Password'
+                placeholderTextColor='#cccccc'
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+            />
+
+            {/*Text field for Assigned Researcher Name*/}
+
+            {/* Assigned Researcher Name */}
+            <Text style={styles.text3}>Assigned Researcher Name</Text>
+            <TextInput
+                style={styles.input}
+                placeholder='Assigned Researcher Name'
+                placeholderTextColor='#cccccc'
+                value={assignedResearcher}
+                onChangeText={setAssignedResearcher}
+            />
+
+            {/*Text field for Researcher Email*/}
+
+            {/* Researcher Email */}
+            <Text style={styles.text3}>Researcher Email</Text>
+            <TextInput
+                style={styles.input}
+                placeholder='Researcher Email'
+                placeholderTextColor='#cccccc'
+                value={researcherEmail}
+                onChangeText={setResearcherEmail}
+            />
+
+            {/*Text field for IRB Approval #*/}
+
+            {/* IRB Approval # */}
+            <Text style={styles.text3}>IRB Approval #</Text>
+            <TextInput
+                style={styles.input}
+                placeholder='IRB Approval #'
+                placeholderTextColor='#cccccc'
+                value={irbApprovalNumber}
+                onChangeText={setIrbApprovalNumber}
+            />
+          
+  
+
         {/*Button to register*/}
 
           <TouchableOpacity style={styles.registerButton} onPress={RegisterParticipant}>
             <Text style={styles.registerButtonText}>Register</Text>
           </TouchableOpacity>
-      </View>
-
-      {/*Preliminary links to toggle Register/Sign In **** WILL BE DELETED*******/}
-
-        <View style={styles.linkContainer}>
-          <Link href='/admin-dashboard' style={styles.linkText}>
-            Go to Dashboard
-          </Link>
-          <Link href='/' style={styles.linkText}>
-            Go to Sign in
-          </Link>
-        </View>
-      </View>
+        </Card>
+        
+        {/*Button to Return to Dashboard*/}
+        <Card style={styles.gridCard}>
+            <Button style= {styles.button} mode='elevated' onPress={() => navigate('/admin-dashboard')}> Return to
+                Dashboard </Button>
+        </Card>
+        
+      </ScrollView>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
-
-  container: {
-    backgroundColor: '#25282E',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 15,
-    paddingVertical: 10
-  },
-  imageContainer: {
-    width: '30%',
-    height: '30%',
-    alignSelf: 'center',
-    marginTop: 0,
-  },
-  title: {
-    color: '#FFFFFF',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginVertical: 10,
-    textAlign: "center"
-  },
-  form:{
-    width: '100%',
-    max: 400
-  },
-  label: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    marginBottom: 3,
-  },
-  input: {
-    backgroundColor: '#333840',
-    color: '#FFFFFF',
-    fontSize: 14,
-    borderRadius: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    marginBottom: 8
-  },
-  registerButton: {
-    backgroundColor: '#338a7eff',
-    paddingVertical: 10,
-    borderRadius: 6,
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  registerButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  linkContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  linkText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    marginVertical: 2,
-  },
-
-});

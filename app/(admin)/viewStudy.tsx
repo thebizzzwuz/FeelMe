@@ -2,9 +2,10 @@ import axios from "axios";
 import { useLocalSearchParams } from "expo-router";
 import { navigate } from 'expo-router/build/global-state/routing';
 import React, { useEffect } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import { Dropdown } from 'react-native-paper-dropdown';
+import { styles } from '../../app/src/styles/styles';
 
     export default function ViewStudy() {
 
@@ -17,7 +18,7 @@ import { Dropdown } from 'react-native-paper-dropdown';
         useEffect(() => {
             if (!studyName) return;
 
-            axios.get(`http://192.168.4.23:3000/api/partfromstudy/${encodeURIComponent(String(studyName))}`)
+            axios.get(`http://192.168.1.43:3000/api/partfromstudy/${encodeURIComponent(String(studyName))}`)
                 .then((res) => {
                     console.log("Raw participant data:", res.data);
                     const mappedUsers = res.data.map(user => ({
@@ -46,7 +47,7 @@ import { Dropdown } from 'react-native-paper-dropdown';
             try{
                 // Call delete user logs api
                 // The local IP for Expo and the backend server port
-                const res = await axios.post('http://192.168.1.55:3000/api/logs/delete-logs-by-participant', {chosenUser});
+                const res = await axios.post('http://192.168.1.43:3000/api/logs/delete-logs-by-participant', {chosenUser});
 
                 console.log(res.status);
                 alert(res.data.status);
@@ -60,12 +61,12 @@ import { Dropdown } from 'react-native-paper-dropdown';
                 alert('Participant logs not deleted. Try again.');  
                 // Clear input fields on error
                 setChosenUser(null);  
-
             }
+
             try{
                 // Call delete user api
                 // The local IP for Expo and the backend server port
-                const res = await axios.post('http://192.168.1.55:3000/api/participant/delete', {chosenUser});
+                const res = await axios.post('http://192.168.1.43:3000/api/participant/delete', {chosenUser});
 
                 console.log(res.status);
                 alert(res.data.status);
@@ -85,10 +86,9 @@ import { Dropdown } from 'react-native-paper-dropdown';
         return (
             <View style={styles.container}>
                 <ScrollView contentContainerStyle={styles.grid}>
-                    {/* <Text style={styles.text}>Feel Me {'\n'} View Study!</Text> */}
                     <Card style={styles.gridCard}>
                         <Text style={styles.text}>{studyName}</Text>
-                        <Dropdown
+                        <Dropdown 
                             label="Choose a User"
                             placeholder="Choose a User"
                             options={usersList}
@@ -100,12 +100,12 @@ import { Dropdown } from 'react-native-paper-dropdown';
                     <Card style={styles.gridCard}>
                         <Text style={styles.text}>USER DATA CHART AND TABLE HERE</Text>
                     </Card>
-                    <Card style={styles.row}>
-                        <Button mode='elevated' onPress={() => navigate('./createParticipants')}> Create New
+                    <Card style={styles.gridCard}>
+                        <Button style= {styles.button} mode='elevated' onPress={() => navigate('./createParticipants')}> Create New
                             User </Button>
-                        <Button mode='elevated'> Download Data </Button>
-                        <Button mode='elevated' onPress={DeleteUser}> DELETE USER </Button>
-                        <Button mode='elevated' onPress={() => navigate('/admin-dashboard')}> Return to
+                        <Button style= {styles.button} mode='elevated'> Download Data </Button>
+                        <Button style= {styles.button} mode='elevated' onPress={DeleteUser}> DELETE USER </Button>
+                        <Button style= {styles.button} mode='elevated' onPress={() => navigate('/admin-dashboard')}> Return to
                             Dashboard </Button>
                     </Card>
                 </ScrollView>
@@ -113,38 +113,38 @@ import { Dropdown } from 'react-native-paper-dropdown';
         );
     }
 
-    const styles = StyleSheet.create({
-        row: {
-            flexDirection: 'row',
-            justifyContent: 'space-between', // or 'center' or 'space-around'
-            padding: 16,
-        },
-        button: {
-            flex: 1,
-            marginHorizontal: 4,
-        },
-        container: {
-            flex: 1,
-            backgroundColor: '#56d3adff',
-        },
-        grid: {
-            backgroundColor: '#56d3adff',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingVertical: 100,
-        },
-        gridCard: {
-            backgroundColor: '#56d3adff',
-            width: 430,
-            alignContent: 'center',
-            marginBottom: 20,
-        },
-        text: {
-            color: '#FFFFFF',
-            fontSize: 30,
-            marginVertical: 10,
-            textAlign: 'center',
-        },
-    });
+    // const styles = StyleSheet.create({
+    //     row: {
+    //         flexDirection: 'row',
+    //         justifyContent: 'space-between', // or 'center' or 'space-around'
+    //         padding: 16,
+    //     },
+    //     button: {
+    //         flex: 1,
+    //         marginHorizontal: 4,
+    //     },
+    //     container: {
+    //         flex: 1,
+    //         backgroundColor: '#56d3adff',
+    //     },
+    //     grid: {
+    //         backgroundColor: '#56d3adff',
+    //         flexDirection: 'column',
+    //         alignItems: 'center',
+    //         justifyContent: 'center',
+    //         paddingVertical: 100,
+    //     },
+    //     gridCard: {
+    //         backgroundColor: '#56d3adff',
+    //         width: 430,
+    //         alignContent: 'center',
+    //         marginBottom: 20,
+    //     },
+    //     text: {
+    //         color: '#FFFFFF',
+    //         fontSize: 30,
+    //         marginVertical: 10,
+    //         textAlign: 'center',
+    //     },
+    // });
 
