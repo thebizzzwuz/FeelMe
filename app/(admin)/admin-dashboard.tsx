@@ -1,7 +1,8 @@
 import { navigate } from 'expo-router/build/global-state/routing';
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import { Dropdown } from 'react-native-paper-dropdown';
+import { styles } from '../../app/src/styles/styles';
 
 // Dropdown options to view study
 const OPTIONS = [
@@ -13,10 +14,10 @@ export default function AdminDashboard() {
   return (
     <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.grid}>
-            {/* <Text style={styles.text}>Feel Me {'\n'} Researcher Dashboard!</Text> */}
+            <Text style={styles.text2}>Feel Me {'\n'} Researcher Dashboard</Text>
             <Card style={styles.gridCard}>
               <Text style={styles.text}>Click below to create a new study</Text>
-              <Button mode='elevated' onPress={() => navigate('/(tabs)/createStudy')}>Create Study</Button>
+              <Button style= {styles.button} mode='contained' onPress={() => navigate('/(tabs)/createStudy')}>Create Study</Button>
             </Card>
             <Card style={styles.gridCard}>
               <Text style={styles.text}>Select a study to view data</Text>
@@ -28,35 +29,35 @@ export default function AdminDashboard() {
                 //onSelect={}
                 mode='outlined'
                 />
-              <Button mode='elevated' onPress={() => navigate('/(admin)/viewStudy')}>View Study</Button>
+              <Button style= {styles.button} mode='contained' onPress={() => navigate('/(admin)/viewStudy')}>View Study</Button>
             </Card>
         </ScrollView>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#56d3adff',
-  },
-  grid: {
-    backgroundColor: '#56d3adff',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 100,
-  },
-  gridCard: {
-    backgroundColor: '#56d3adff',
-    width: 430,
-    alignContent: 'center',
-    marginBottom: 20,
-  },
-  text: {
-    color: '#FFFFFF',
-    fontSize: 30,
-    marginVertical: 10,
-    textAlign: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#56d3adff',
+//   },
+//   grid: {
+//     backgroundColor: '#56d3adff',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     paddingVertical: 100,
+//   },
+//   gridCard: {
+//     backgroundColor: '#56d3adff',
+//     width: 430,
+//     alignContent: 'center',
+//     marginBottom: 20,
+//   },
+//   text: {
+//     color: '#FFFFFF',
+//     fontSize: 30,
+//     marginVertical: 10,
+//     textAlign: 'center',
+//   },
+// });
