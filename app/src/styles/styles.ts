@@ -65,5 +65,70 @@ export const styles = StyleSheet.create({
         fontSize: 50,
         marginVertical: 10,
         textAlign: 'center',
-  }
+  },
+    text3: {
+        color: '#11433a',
+        fontSize: 15,
+        textAlign: 'left',
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 10,
+  },
+     row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', // or 'center' or 'space-around'
+        padding: 16,
+        },
+    title: {
+        color: '#FFFFFF',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginVertical: 10,
+        textAlign: "center"
+      },
+    form:{
+        width: '100%',
+        max: 400
+    },
+    label: {
+        color: '#FFFFFF',
+        fontSize: 14,
+        marginBottom: 3,
+    },
+    input: {
+        backgroundColor: '#333840',
+        color: '#FFFFFF',
+        fontSize: 14,
+        borderRadius: 6,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        marginBottom: 5,
+        marginTop: 12,
+        marginLeft: 20,
+        marginRight: 20,
+    },
+    registerButton: {
+        backgroundColor: '#338a7eff',
+        paddingVertical: 10,
+        borderRadius: 6,
+        marginTop: 10,
+        marginBottom: 10,
+         marginLeft: 20,
+        marginRight: 20,
+        alignItems: 'center',
+    },
+    registerButtonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    linkContainer: {
+        marginTop: 15,
+        alignItems: 'center',
+    },
+    linkText: {
+        color: '#FFFFFF',
+        fontSize: 14,
+        marginVertical: 2,
+    },
 });

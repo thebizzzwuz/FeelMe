@@ -69,6 +69,7 @@ import { styles } from '../../app/src/styles/styles';
                 setChosenUser(null);
 
             }
+
             try{
                 // Call delete user api
                 // The local IP for Expo and the backend server port
@@ -97,7 +98,6 @@ import { styles } from '../../app/src/styles/styles';
         return (
             <View style={styles.container}>
                 <ScrollView contentContainerStyle={styles.grid}>
-                    {/* <Text style={styles.text}>Feel Me {'\n'} View Study!</Text> */}
                     <Card style={styles.gridCard}>
                         <Text style={styles.text}>{studyName}</Text>
 
@@ -127,11 +127,11 @@ import { styles } from '../../app/src/styles/styles';
                         <Text style={styles.text}>PARTICIPANT DATA CHART AND TABLE HERE</Text>
                     </Card>
                     <Card style={styles.gridCard}>
-                        <Button mode='elevated' onPress={() => navigate('./createParticipants')}> Create New
-                            Participant </Button>
-                        <Button mode='elevated'> Download Data </Button>
-                        <Button mode='elevated' onPress={DeleteUser}> DELETE PARTICIPANT </Button>
-                        <Button mode='elevated' onPress={() => navigate('/admin-dashboard')}> Return to
+                        <Button style= {styles.button} mode='elevated' onPress={() => navigate('./createParticipants')}> Create New
+                            User </Button>
+                        <Button style= {styles.button} mode='elevated'> Download Data </Button>
+                        <Button style= {styles.button} mode='elevated' onPress={DeleteUser}> DELETE PARTICIPANT </Button>
+                        <Button style= {styles.button} mode='elevated' onPress={() => navigate('/admin-dashboard')}> Return to
                             Dashboard </Button>
                     </Card>
                 </ScrollView>

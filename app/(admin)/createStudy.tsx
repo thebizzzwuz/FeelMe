@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { navigate } from 'expo-router/build/global-state/routing';
 import * as React from 'react';
-import {StyleSheet, View, ViewStyle} from 'react-native';
-import { Button, Menu, Provider as PaperProvider, SegmentedButtons, Text, TextInput } from 'react-native-paper';
-import { styles } from '../../app/src/styles/styles';
+import { ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, Card, Text } from 'react-native-paper';
 // import {router} from "expo-router";
-import {useRouter} from 'expo-router';
+import { useRouter } from 'expo-router';
+import { styles } from '../../app/src/styles/styles';
 // import DropDown from 'react-native-paper-dropdown';
 
 
@@ -23,7 +24,7 @@ export default function CreateStudy() {
     const CreateStudy = async () => {
 
         try {
-            const res = await axios.post('http://192.168.4.23:3000/api/study/create', {
+            const res = await axios.post('http://192.168.1.43:3000/api/study/create', {
                 studyName: studyName,
                 xAxisName: variable1,
                 yAxisName: variable2,
@@ -50,112 +51,88 @@ export default function CreateStudy() {
     return (
 
         <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.grid}>
+                <Card style={styles.gridCard}>
+                    <Text style={styles.text}>Create a Study</Text>
+                </Card>
+                <Card style={styles.gridCard}>
+                    <Text style={styles.text3}>Study</Text>
+                    {/*Input field for name of Study*/}
+                    <TextInput 
+                        placeholder='Name of Study'
+                        value={studyName}
+                        onChangeText={setStudyName}
+                        style={styles.input}
+                        placeholderTextColor='#cccccc'
+                    />
 
-            <Text style={styles.header}>Admin Create a Study</Text>
+                    {/*Input field for Variable #1*/}
 
-            <View style={styles.titleBar}>
-                <Text style={styles.titleText}>Study</Text>
-            </View>
+                    <Text style={styles.text3}>Variable #1</Text>
+                    <TextInput 
+                        placeholder='Variable #1'
+                        value={variable1}
+                        onChangeText={setVariable1}
+                        style={styles.input}
+                        placeholderTextColor='#cccccc'
+                    
+                    />
 
-            {/*Input field for name of Study*/}
+                    {/*Input field for Variable #2*/}
 
-            <TextInput label='Name of Study'
-                value={studyName}
-                onChangeText={setStudyName}
-                mode='outlined'
-                contentStyle={styles.inputContent}
-                style={styles.input}
-                theme={{
-                    colors: {
-                        text: 'black',
-                        background: 'white',
-                        primary: 'black',
-                        onSurfaceVariant: 'black',
-                    },
-                }}
-            />
+                    <Text style={styles.text3}>Variable #2</Text>
+                    <TextInput 
+                        placeholder='Variable #2'
+                        placeholderTextColor='#cccccc'
+                        value={variable2}
+                        onChangeText={setVariable2}
+                        style={styles.input}
+                        
+                    />
 
-            {/*Input field for Variable #1*/}
+                    {/*Button to create study*/}
+                    
+                              <TouchableOpacity style={styles.registerButton} onPress={CreateStudy}>
+                                <Text style={styles.registerButtonText}>Create Study</Text>
+                              </TouchableOpacity>
+                </Card>
 
-            <View style={styles.titleBar}>
-                <Text style={styles.titleText}>Variable #1</Text>
-            </View>
+                {/*Button to Return to Dashboard*/}
+                <Card style={styles.gridCard}>
+                    <Button style= {styles.button} mode='elevated' onPress={() => navigate('/admin-dashboard')}> Return to
+                        Dashboard </Button>
+                </Card>
 
 
-            <TextInput label='Variable #1'
-                value={variable1}
-                onChangeText={setVariable1}
-                mode='outlined'
-                contentStyle={styles.inputContent}
-                style={styles.input}
-                theme={{
-                    colors: {
-                        text: 'black',
-                        background: 'white',
-                        primary: 'black',
-                        onSurfaceVariant: 'black',
-                        },
+                {/*React Native Paper Segmented Buttons for Return to Dashboard and Create*/}
+
+
+                {/* <SegmentedButtons
+                    value={chosenStudy}
+                    onValueChange={async (val) => {
+                        setChosenStudy(val);
+                        if (val === "Create"){
+                            await CreateStudy();
+                            setChosenStudy("")
+
+                        }
+
+                        if (val === "Return to Dashboard"){
+                            router.push('admin-dashboard')
+                        }
                     }}
-            />
-
-            {/*Input field for Variable #2*/}
-
-            <View style={styles.titleBar}>
-                <Text style={styles.titleText}>Variable #2</Text>
-            </View>
-
-            <TextInput label='Variable #2'
-                value={variable2}
-                onChangeText={setVariable2}
-                mode='outlined'
-                contentStyle={styles.inputContent}
-                style={styles.input}
-                theme={{
-                    colors: {
-                        text: 'black',
-                        background: 'white',
-                        primary: 'black',
-                        onSurfaceVariant: 'black',
+                    buttons={[{value: 'Return to Dashboard',
+                        label: 'Return to Dashboard',
+                        icon: 'home',
+                        uncheckedColor: '#FFFFFF',    
                     },
-                }}
-            />
-
-         {/*Drop-down menu for Likert Labels*/}
-
-<PaperProvider>
-    {/*Drop-down menu for Quadrant 1*/}
-    {/*Drop-down menu for Quadrant 2*/}
-    {/*Drop-down menu for Quadrant 3*/}
-    {/*Drop-down menu for Quadrant 4*/}
-</PaperProvider>
-
-            {/*React Native Paper Segmented Buttons for Return to Dashboard and Create*/}
-            <View style={{ width: '111%', marginTop: 50 }}>
-            <SegmentedButtons
-                value={chosenStudy}
-                onValueChange={async (val) => {
-                    setChosenStudy(val);
-                    if (val === "Create"){
-                        await CreateStudy();
-                        setChosenStudy("")
-
-                    }
-
-                    if (val === "Return to Dashboard"){
-                        router.push('admin-dashboard')
-                    }
-                }}
-                buttons={[{value: 'Return to Dashboard',
-                    label: 'Return to Dashboard',
-                    icon: 'home',
-                    uncheckedColor: 'black',
-                },
-                    {value: 'Create',
-                        label: 'Create',
-                        icon: 'plus',
-                        uncheckedColor: 'black',}]}
-                style={styles.segmented}
-               />
+                        {value: 'Create',
+                            label: 'Create',
+                            icon: 'plus',
+                            uncheckedColor: '#FFFFFF',}]}
+                    style={styles.segmented}
+                /> */}
+            </ScrollView>
         </View>
         </View>
 
@@ -163,7 +140,7 @@ export default function CreateStudy() {
 }
 
 // const styles = StyleSheet.create({
-//
+
 //     container: {
 //         backgroundColor: '#25282E',
 //         flex: 1,
@@ -189,7 +166,7 @@ export default function CreateStudy() {
 //         color: 'white',
 //         fontSize: 30
 //     },
-//
+
 //     largeButton: {
 //         backgroundColor: '#ffffff',
 //         width: 300,
@@ -203,7 +180,7 @@ export default function CreateStudy() {
 //         shadowOpacity: 0.25,
 //         shadowRadius: 4,
 //         elevation: 6,
-//
+
 //     },
 //     textLargeButton: {
 //         color: '#000',
@@ -223,7 +200,7 @@ export default function CreateStudy() {
 //         borderRadius: 25,
 //         elevation: 8,
 //     },
-//
+
 //     titleBar: {
 //         backgroundColor: 'white',
 //         width: '10%',
@@ -238,5 +215,5 @@ export default function CreateStudy() {
 //         fontSize: 15,
 //         fontWeight: 'bold',
 //     },
-//
+
 // });
