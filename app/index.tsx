@@ -6,8 +6,9 @@ import axios from "axios";
 // import { navigate } from 'expo-router/build/global-state/routing';
 import { useRouter } from 'expo-router';
 import { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Button, Card, Text, TextInput } from "react-native-paper";
+import { styles } from '../app/src/styles/styles';
 
 // For JWT storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -68,7 +69,10 @@ export default function Index() {
       <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.grid}>
         <Card style={styles.gridCard}>
-          <Card.Cover source={PlaceholderImage} />
+          <Card.Content>
+            <Text style = {styles.text}>Welcome!</Text>
+          </Card.Content>
+          {/* <Card.Cover source={PlaceholderImage} /> */}
         </Card>
         <Card style={styles.gridCard}>
            <Card.Content>  
@@ -91,8 +95,8 @@ export default function Index() {
 
             {/* Sign in button  */}
             {/* <Button mode='contained' onPress={() => navigate('/(admin)/admin-dashboard')}>Sign In</Button> */}
-             <Button mode='contained' onPress={SignInUser}>Sign In</Button>
-            <Button mode='contained' onPress={() => alert('Reach out to Researcher to reset your password')}>Forgot Password?</Button>
+             <Button style= {styles.button} mode='contained' onPress={SignInUser}>Sign In</Button>
+            <Button style= {styles.button} mode='contained' onPress={() => alert('Reach out to Researcher to reset your password')}>Forgot Password?</Button>
           </Card.Actions>
         </Card>
       </ScrollView>
@@ -100,28 +104,28 @@ export default function Index() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#56d3adff',
-  },
-  grid: {
-    backgroundColor: '#56d3adff',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 100,
-  },
-  gridCard: {
-    backgroundColor: '#56d3adff',
-    width: 430,
-    alignContent: 'center',
-    marginBottom: 20,
-  },
-  text: {
-    color: '#FFFFFF',
-    fontSize: 30,
-    marginVertical: 10,
-    textAlign: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#56d3adff',
+//   },
+//   grid: {
+//     backgroundColor: '#56d3adff',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     paddingVertical: 100,
+//   },
+//   gridCard: {
+//     backgroundColor: '#56d3adff',
+//     width: 430,
+//     alignContent: 'center',
+//     marginBottom: 20,
+//   },
+//   text: {
+//     color: '#FFFFFF',
+//     fontSize: 30,
+//     marginVertical: 10,
+//     textAlign: 'center',
+//   },
+// });
