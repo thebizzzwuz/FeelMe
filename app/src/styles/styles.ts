@@ -60,7 +60,7 @@ export const styles = StyleSheet.create({
         marginVertical: 10,
         textAlign: 'center',
   },
-  text2: {
+    text2: {
         color: '#E6F2E0',
         fontSize: 50,
         marginVertical: 10,

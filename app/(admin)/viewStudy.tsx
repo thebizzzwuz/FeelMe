@@ -1,10 +1,10 @@
+import axios from "axios";
+import { useLocalSearchParams } from "expo-router";
 import { navigate } from 'expo-router/build/global-state/routing';
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import { Dropdown } from 'react-native-paper-dropdown';
-import axios from "axios";
-import { useLocalSearchParams } from "expo-router";
 
     export default function ViewStudy() {
 
@@ -41,6 +41,27 @@ import { useLocalSearchParams } from "expo-router";
                 });
         }, [studyName]);
 
+        const DeleteUser = async () => {
+
+            try{
+                // Call delete user api
+                // The local IP for Expo and the backend server port
+                const res = await axios.post('http://192.168.1.55:3000/api/auth/signin', {chosenUser});
+
+                console.log(res.status);
+                alert(res.data.status);
+
+                if (res.status === 200) {
+                    console.log('Participant deleted successfully');
+                };
+
+            } catch (error) {
+                console.error('Error: Participant not deleted.', error);
+                alert('User not deleted. Try again.');  
+                // Clear input fields on error
+                setChosenUser(null);  
+            }
+    }
 
         return (
             <View style={styles.container}>
@@ -64,7 +85,7 @@ import { useLocalSearchParams } from "expo-router";
                         <Button mode='elevated' onPress={() => navigate('./createParticipants')}> Create New
                             User </Button>
                         <Button mode='elevated'> Download Data </Button>
-                        <Button mode='elevated'> DELETE USER </Button>
+                        <Button mode='elevated' onPress={DeleteUser}> DELETE USER </Button>
                         <Button mode='elevated' onPress={() => navigate('/admin-dashboard')}> Return to
                             Dashboard </Button>
                     </Card>
