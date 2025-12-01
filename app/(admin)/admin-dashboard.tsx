@@ -1,12 +1,12 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import { navigate } from 'expo-router/build/global-state/routing';
+import * as React from "react";
+import { useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import { Dropdown } from 'react-native-paper-dropdown';
 import { styles } from '../../app/src/styles/styles';
-import axios from "axios";
-import {useEffect} from "react";
-import * as React from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Dropdown options to view study
 // const OPTIONS = [
@@ -20,7 +20,7 @@ export default function AdminDashboard() {
     const [studiesList, setStudiesList] = React.useState([]);
 
     useEffect(() => {
-    axios.get('http://192.168.4.23:3000/api/study/studyname')
+    axios.get('http://192.168.1.55:3000/api/study/studyname')
         .then((res) => {
 
         const mappedOptions = res.data.map(study => ({
@@ -40,7 +40,7 @@ export default function AdminDashboard() {
             const token = await AsyncStorage.getItem('token');
 
 
-            await fetch('http://192.168.4.23:3000/signout', {
+            await fetch('http://192.168.1.55:3000/signout', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,

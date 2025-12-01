@@ -2,7 +2,7 @@ import axios from "axios";
 import { useLocalSearchParams } from "expo-router";
 import { navigate } from 'expo-router/build/global-state/routing';
 import React, { useEffect } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import { Dropdown } from 'react-native-paper-dropdown';
 import { styles } from '../../app/src/styles/styles';
@@ -18,10 +18,11 @@ import { styles } from '../../app/src/styles/styles';
         useEffect(() => {
             if (!studyName) return;
 
+            
             setChosenUser(null);
             setUsersList([])
 
-            axios.get(`http://192.168.4.23:3000/api/partfromstudy/${encodeURIComponent(String(studyName))}`)
+            axios.get(`http://192.168.1.55:3000/api/partfromstudy/${encodeURIComponent(String(studyName))}`)
                 .then((res) => {
                     console.log("Raw participant data:", res.data);
                     const mappedUsers = res.data.map(user => ({
