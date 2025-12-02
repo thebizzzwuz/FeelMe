@@ -37,7 +37,7 @@ export default function Index() {
       }
 
       // The local IP for Expo and the backend server port
-      const res = await axios.post('http://192.168.1.55:3000/api/auth/signin', {participantId, password});
+      const res = await axios.post('https://feelme.onrender.com/api/auth/signin', {participantId, password});
 
       console.log(res.status);
       alert(res.data.status);
