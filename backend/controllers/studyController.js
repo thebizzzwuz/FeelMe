@@ -1,4 +1,4 @@
-const Study = require('../models/Study');
+const Study = require('../models/study');
 const Log = require('../models/Log');
 const { Parser } = require('json2csv'); // for CSV export, need to install json2csv
 
