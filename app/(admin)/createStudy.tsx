@@ -1,10 +1,10 @@
 import axios from 'axios';
 import * as React from 'react';
-import {StyleSheet, View, ViewStyle} from 'react-native';
-import { Button, Menu, Provider as PaperProvider, SegmentedButtons, Text, TextInput } from 'react-native-paper';
+import { View } from 'react-native';
+import { Provider as PaperProvider, SegmentedButtons, Text, TextInput } from 'react-native-paper';
 import { styles } from '../../app/src/styles/styles';
 // import {router} from "expo-router";
-import {useRouter} from 'expo-router';
+import { useRouter } from 'expo-router';
 // import DropDown from 'react-native-paper-dropdown';
 
 
@@ -23,7 +23,7 @@ export default function CreateStudy() {
     const CreateStudy = async () => {
 
         try {
-            const res = await axios.post('http://192.168.4.23:3000/api/study/create', {
+            const res = await axios.post('http://localhost:3000/api/study/create', {
                 studyName: studyName,
                 xAxisName: variable1,
                 yAxisName: variable2,
