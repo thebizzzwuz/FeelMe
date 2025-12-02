@@ -24,7 +24,7 @@ export default function CreateStudy() {
     const CreateStudy = async () => {
 
         try {
-            const res = await axios.post('http://192.168.1.43:3000/api/study/create', {
+            const res = await axios.post('https://feelme.onrender.com/api/study/create', {
                 studyName: studyName,
                 xAxisName: variable1,
                 yAxisName: variable2,
