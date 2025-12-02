@@ -18,7 +18,7 @@ import ProgressScreen from '../(tabs)/progress'; // Adjust the path as needed
         useEffect(() => {
             if (!studyName) return;
 
-            axios.get(`http://192.168.1.55:3000/api/partfromstudy/${encodeURIComponent(String(studyName))}`)
+            axios.get(`https://feelme.onrender.com/api/partfromstudy/${encodeURIComponent(String(studyName))}`)
                 .then((res) => {
                     console.log("Raw participant data:", res.data);
                     const mappedUsers = res.data.map(user => ({
@@ -52,7 +52,7 @@ const DownloadUserData = async () => {
 
     try {
         const res = await axios.get(
-            `http://192.168.1.55:3000/api/logs/getLogsByParticipant/${chosenUser}`,
+            `https://feelme.onrender.com/api/logs/getLogsByParticipant/${chosenUser}`,
             { responseType: 'blob' } // important for CSV download
         );
 
@@ -76,7 +76,7 @@ const DownloadUserData = async () => {
             try{
                 // Call delete user logs api
                 // The local IP for Expo and the backend server port
-                const res = await axios.post('http://192.168.1.55:3000/api/logs/delete-logs-by-participant', {chosenUser});
+                const res = await axios.post('https://feelme.onrender.com/api/logs/delete-logs-by-participant', {chosenUser});
 
                 console.log(res.status);
                 alert(res.data.status);
@@ -96,7 +96,7 @@ const DownloadUserData = async () => {
             try{
                 // Call delete user api
                 // The local IP for Expo and the backend server port
-                const res = await axios.post('http://192.168.1.55:3000/api/participant/delete', {chosenUser});
+                const res = await axios.post('https://feelme.onrender.com/api/participant/delete', {chosenUser});
 
                 console.log(res.status);
                 alert(res.data.status);
