@@ -92,6 +92,7 @@ const DownloadUserData = async () => {
                 setChosenUser(null);  
 
             }
+
             try{
                 // Call delete user api
                 // The local IP for Expo and the backend server port
@@ -115,7 +116,6 @@ const DownloadUserData = async () => {
         return (
             <View style={styles.container}>
                 <ScrollView contentContainerStyle={styles.grid}>
-                    {/* <Text style={styles.text}>Feel Me {'\n'} View Study!</Text> */}
                     <Card style={styles.gridCard}>
                         <Text style={styles.text}>{studyName}</Text>
                         <Dropdown
@@ -135,12 +135,12 @@ const DownloadUserData = async () => {
                             </ScrollView>
                         </Card>
                     )}
-                                        <Card style={styles.row}>
-                        <Button mode='elevated' onPress={() => navigate('./createParticipants')}> Create New
+                        <Card style={styles.row}>
+                        <Button style= {styles.button} mode='elevated' onPress={() => navigate('./createParticipants')}> Create New
                             User </Button>
-                        <Button mode='elevated' onPress={DownloadUserData}> Download Data </Button>
-                        <Button mode='elevated' onPress={DeleteUser}> DELETE USER </Button>
-                        <Button mode='elevated' onPress={() => navigate('/admin-dashboard')}> Return to
+                        <Button style= {styles.button} mode='elevated' onPress={DownloadUserData}> Download Data </Button>
+                        <Button style= {styles.button} mode='elevated' onPress={DeleteUser}> DELETE USER </Button>
+                        <Button style= {styles.button} mode='elevated' onPress={() => navigate('/admin-dashboard')}> Return to
                             Dashboard </Button>
                     </Card>
                 </ScrollView>

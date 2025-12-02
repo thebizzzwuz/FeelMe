@@ -60,15 +60,11 @@ export default function AdminDashboard() {
 
   return (
     <View style={styles.container}>
-        <Button  onPress={signOut}
-                 >
-            Sign out
-        </Button>
         <ScrollView contentContainerStyle={styles.grid}>
             <Text style={styles.text2}>Feel Me {'\n'} Researcher Dashboard</Text>
             <Card style={styles.gridCard}>
               <Text style={styles.text}>Click below to create a new study</Text>
-              <Button style= {styles.button} mode='elevated' onPress={() => navigate('createStudy')}>Create Study</Button>
+              <Button style= {styles.button} mode='elevated' onPress={() => navigate('/(admin)/createStudy')}>Create Study</Button>
             </Card>
             <Card style={styles.gridCard}>
               <Text style={styles.text}>Select a study to view data</Text>
@@ -92,6 +88,10 @@ export default function AdminDashboard() {
               </Button>
             </Card>
         </ScrollView>
+        <Button  style={styles.button} onPress={signOut}
+                 >
+            Sign out
+        </Button>
     </View>
   );
 }
