@@ -6,6 +6,7 @@ import { ScrollView, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import { Dropdown } from 'react-native-paper-dropdown';
 import { styles } from '../../app/src/styles/styles';
+import ProgressScreen from "@/app/(tabs)/progress";
 
     export default function ViewStudy() {
 
@@ -22,7 +23,7 @@ import { styles } from '../../app/src/styles/styles';
             setChosenUser(null);
             setUsersList([])
 
-            axios.get(`http://192.168.1.55:3000/api/partfromstudy/${encodeURIComponent(String(studyName))}`)
+            axios.get(`http://192.168.4.23:3000/api/partfromstudy/${encodeURIComponent(String(studyName))}`)
                 .then((res) => {
                     console.log("Raw participant data:", res.data);
                     const mappedUsers = res.data.map(user => ({
@@ -45,6 +46,33 @@ import { styles } from '../../app/src/styles/styles';
                     }
                 });
         }, [studyName]);
+
+        const DownloadUserData = async () => {
+            if (!chosenUser) {
+                alert("Please select a user first.");
+                return;
+            }
+
+            try {
+                const res = await axios.get(
+                    `http://192.168.4.23:3000/api/logs/getLogsByParticipant/${chosenUser}`,
+                    { responseType: 'blob' } // important for CSV download
+                );
+
+                // Create a link and trigger download
+                // const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement('a');
+                // link.href = url;
+                link.setAttribute('download', `participant_${chosenUser}_logs.csv`);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+
+            } catch (error) {
+                console.error("Error downloading CSV:", error);
+                alert("Failed to download CSV.");
+            }
+        };
 
         const DeleteUser = async () => {
 
@@ -123,13 +151,20 @@ import { styles } from '../../app/src/styles/styles';
                                 />
                             )}
                     </Card>
-                    <Card style={styles.gridCard}>
-                        <Text style={styles.text}>PARTICIPANT DATA CHART AND TABLE HERE</Text>
-                    </Card>
+
+
+                    {/* Render ProgressScreen only when a user is selected */}
+                    {chosenUser && (
+                        <Card style={styles.gridCard}>
+                            <ScrollView horizontal={true}>
+                                <ProgressScreen userId={chosenUser || "MOCK_USER_ID"} />
+                            </ScrollView>
+                        </Card>
+                    )}
                     <Card style={styles.gridCard}>
                         <Button style= {styles.button} mode='elevated' onPress={() => navigate('./createParticipants')}> Create New
                             User </Button>
-                        <Button style= {styles.button} mode='elevated'> Download Data </Button>
+                        <Button style= {styles.button} mode='elevated' onPress={DownloadUserData}> Download Data </Button>
                         <Button style= {styles.button} mode='elevated' onPress={DeleteUser}> DELETE PARTICIPANT </Button>
                         <Button style= {styles.button} mode='elevated' onPress={() => navigate('/admin-dashboard')}> Return to
                             Dashboard </Button>

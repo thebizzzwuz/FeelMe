@@ -24,7 +24,7 @@ export default function CreateStudy() {
     const CreateStudy = async () => {
 
         try {
-            const res = await axios.post('http://192.168.1.43:3000/api/study/create', {
+            const res = await axios.post('http://192.168.4.23:3000/api/study/create', {
                 studyName: studyName,
                 xAxisName: variable1,
                 yAxisName: variable2,
@@ -133,7 +133,6 @@ export default function CreateStudy() {
                     style={styles.segmented}
                 /> */}
             </ScrollView>
-        </View>
         </View>
 
     )

@@ -5,28 +5,29 @@ import {PaperProvider} from "react-native-paper";
 
 export default function RootLayout() {
   return(
+      // <Tabs screenOptions={{ tabBarStyle: { display: 'none' } }} />
       <PaperProvider>
     <Tabs
         screenOptions={{
-            tabBarActiveTintColor: '#ffd33d', 
+            tabBarActiveTintColor: '#ffd33d',
             headerStyle: {
                 backgroundColor: '#25282E',
             },
             headerShadowVisible: false,
             headerTintColor: '#FFFFFF',
             tabBarStyle: {
-                backgroundColor: '#25282E',       
+                backgroundColor: '#25282E',
             }
         }}
     >
-      {/* <Tabs.Screen 
+      {/* <Tabs.Screen
       name="index"
       options={{
         headerTitle: 'Feel Me',
-        tabBarIcon: ({focused, color}) => ( 
-            <Ionicons 
+        tabBarIcon: ({focused, color}) => (
+            <Ionicons
                 name= {focused ? "home-sharp" : "home-outline"}
-                size={24} 
+                size={24}
                 color= {color} />
         ),
       }}
@@ -34,10 +35,10 @@ export default function RootLayout() {
       <Tabs.Screen name ="admin-dashboard"
       options={{
         headerTitle: 'Admin Dashboard',
-        tabBarIcon: ({focused, color}) => ( 
-            <Ionicons 
+        tabBarIcon: ({focused, color}) => (
+            <Ionicons
                 name= {focused ? "speedometer" : "speedometer-outline"}
-                size={24} 
+                size={24}
                 color= {color} />
         ),
       }}/>
