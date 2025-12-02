@@ -1,4 +1,6 @@
 const Log = require("../models/Log");
+const mongoose = require("mongoose");
+
 const { Parser } = require('json2csv'); // for CSV export, need to install json2csv
 
 
@@ -185,5 +187,49 @@ exports.deleteLogsByParticipant = async (req, res) => {
         res.status(200).json({message: 'Logs deleted!', deletedCount: result.deletedCount});
     } catch (error) {
         res.status(500).json({error: 'Failed to delete logs'});
+    }
+};
+exports.getLogsByParticipant = async (req, res) => {
+        console.log("getLogsByParticipant hit! Participant ID:", req.params.participantId);
+
+    try {
+        const participantId = req.params.participantId;
+
+        if (!mongoose.Types.ObjectId.isValid(participantId)) {
+            return res.status(400).json({ error: "Invalid participant ID" });
+        }
+
+        const logs = await Log.find({ participant: new mongoose.Types.ObjectId(participantId) })
+            .sort({ createdAt: 1 });
+
+        if (!logs.length) {
+            return res.status(404).json({ error: "No logs found for that participant." });
+        }
+
+        //return res.status(200).json({ logs });
+
+        
+        // Labels and mapping for CSV fields
+        const fields = [
+            { label: 'Participant ID', value: 'participant' },
+            { label: 'Study ID', value: 'studyId' },
+            { label: 'logX', value: 'logX' },
+            { label: 'logY', value: 'logY' },
+            { label: 'Post Intervention', value: 'isPostIntervention' },
+            { label: 'Comment', value: 'comment' },
+            { label: 'Created At', value: 'createdAt' }
+        ];
+
+        const json2csv = new Parser({ fields });
+        const csv = json2csv.parse(logs);
+
+        // Send CSV file
+        res.header('Content-Type', 'text/csv');
+        res.attachment(`participant_${participantId}_logs.csv`);
+        return res.send(csv);
+
+    } catch (error) {
+        console.error('Error generating participant data:', error);
+        res.status(500).json({ error: 'Server error generating participant data' });
     }
 };

@@ -29,4 +29,7 @@ router.delete('/delete-logs-by-participant', logController.deleteLogsByParticipa
 router.get('/download', protect, logController.downloadParticipantLogs);
 //router.get('/download/:participantId', logController.downloadParticipantLogs);
 
+router.get('/getLogsByParticipant/:participantId', logController.getLogsByParticipant);
+
+
 module.exports = router;
