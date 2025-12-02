@@ -20,7 +20,7 @@ export default function AdminDashboard() {
     const [studiesList, setStudiesList] = React.useState([]);
 
     useEffect(() => {
-    axios.get('http://192.168.1.55:3000/api/study/studyname')
+    axios.get('https://feelme.onrender.com/api/study/studyname')
         .then((res) => {
 
         const mappedOptions = res.data.map(study => ({
