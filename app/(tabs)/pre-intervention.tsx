@@ -106,7 +106,7 @@ const PreRatingScreen: React.FC = () => {
             }
 
             // Send data to your backend API
-            const API_URL = 'http://localhost:3000/api/logs/submit-log'; // Replace with your server
+            const API_URL = 'https://feelme.onrender.com/api/logs/submit-log'; // Replace with your server
             const response = await axios.post(API_URL, {
                 studyId: studyName,
                 logX: scores.wellBeing,
