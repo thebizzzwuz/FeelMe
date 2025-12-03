@@ -17,7 +17,7 @@ export default function UserDashboard() {
             }
 
             // Fetch the CSV from backend
-            const res = await fetch('http://192.168.1.55:3000/api/logs/download', {
+            const res = await fetch('https://feelme.onrender.com/api/logs/download', {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
