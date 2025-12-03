@@ -28,7 +28,7 @@ const PostInterventionResults: React.FC = () => {
 
     const downloadCSV = async () => {
         const token = await AsyncStorage.getItem('jwtToken');
-        const res = await fetch("http://localhost:3000/api/logs/download?type=post", {
+        const res = await fetch("https://feelme.onrender.com/api/logs/download?type=post", {
             headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -45,7 +45,7 @@ const PostInterventionResults: React.FC = () => {
         (async () => {
             try {
                 const token = await AsyncStorage.getItem('jwtToken');
-                const res = await fetch("http://localhost:3000/api/logs/post", {
+                const res = await fetch("https://feelme.onrender.com/api/logs/post", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const json = await res.json();
