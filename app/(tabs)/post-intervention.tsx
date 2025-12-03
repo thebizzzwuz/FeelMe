@@ -103,7 +103,7 @@ const PostRatingScreen: React.FC = () => {
 
 
             //  Post to backend API
-            const API_URL = 'http://localhost:3000/api/logs/submit-log'; // replace with your server
+            const API_URL = 'https://feelme.onrender.com/api/logs/submit-log'; // replace with your server
             await axios.post(API_URL, {
                 studyId: studyName,
                 logX: scores.wellBeing,
