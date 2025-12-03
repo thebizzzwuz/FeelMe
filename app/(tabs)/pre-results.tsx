@@ -27,7 +27,7 @@ const PreInterventionResults: React.FC = () => {
 
     const downloadCSV = async () => {
         const token = await AsyncStorage.getItem('jwtToken');
-        const res = await fetch("http://localhost:3000/api/logs/download", {
+        const res = await fetch("https://feelme.onrender.com/api/logs/download", {
             headers: { Authorization: `Bearer ${token}` }
         });
 
