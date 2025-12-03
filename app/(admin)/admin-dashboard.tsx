@@ -40,7 +40,7 @@ export default function AdminDashboard() {
             const token = await AsyncStorage.getItem('token');
 
 
-            await fetch('http://192.168.1.55:3000/signout', {
+            await fetch('https://feelme.onrender.com/signout', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,
