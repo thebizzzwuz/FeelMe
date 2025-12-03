@@ -44,7 +44,7 @@ const PreInterventionResults: React.FC = () => {
         (async () => {
             try {
                 const token = await AsyncStorage.getItem('jwtToken');
-                const res = await fetch("http://localhost:3000/api/logs/pre", {
+                const res = await fetch("https://feelme.onrender.com/api/logs/pre", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const json = await res.json();
